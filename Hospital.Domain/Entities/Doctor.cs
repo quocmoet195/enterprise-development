@@ -33,7 +33,7 @@ public class Doctor
     /// <summary>
     /// Medical specialization.
     /// </summary>
-    public required string Specialization { get; set; }
+    public string? Specialization { get; set; }
 
     /// <summary>
     /// Number of years of work experience.

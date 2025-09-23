@@ -18,7 +18,7 @@ public class Patient
     /// <summary>
     /// Passport number of the patient.
     /// </summary>
-    public required string Passport { get; set; }
+    public string? Passport { get; set; }
 
     /// <summary>
     /// Full name of the patient.
@@ -33,7 +33,7 @@ public class Patient
     /// <summary>
     /// Birth date of the patient.
     /// </summary>
-    public required DateOnly BirthDate { get; set; }
+    public DateOnly BirthDate { get; set; }
 
     /// <summary>
     /// Residential address.

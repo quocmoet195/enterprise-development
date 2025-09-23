@@ -19,12 +19,12 @@ public class Appointment
     /// <summary>
     /// Date and time when the appointment starts.
     /// </summary>
-    public required DateTime StartAt { get; set; }
+    public DateTime? StartAt { get; set; }
 
     /// <summary>
     /// Room number where the appointment takes place.
     /// </summary>
-    public required string RoomNumber { get; set; }
+    public string? RoomNumber { get; set; }
 
     /// <summary>
     /// True if this appointment is a follow-up, false otherwise.
