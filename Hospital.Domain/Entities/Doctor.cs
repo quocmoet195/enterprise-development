@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Hospital.Domain.Enums;
+using System;
 
 namespace Hospital.Domain.Entities;
 /// <summary>
@@ -33,7 +30,7 @@ public class Doctor
     /// <summary>
     /// Medical specialization.
     /// </summary>
-    public string? Specialization { get; set; }
+    public DoctorSpecialization Specialization { get; set; }
 
     /// <summary>
     /// Number of years of work experience.
@@ -43,5 +40,5 @@ public class Doctor
     /// <summary>
     /// Collection of appointments assigned to this doctor.
     /// </summary>
-    public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+    public ICollection<Appointment> Appointments { get; set; } = [];
 }

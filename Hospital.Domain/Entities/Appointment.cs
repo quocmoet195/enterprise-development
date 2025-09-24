@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hospital.Domain.Entities;
 /// <summary>
@@ -32,19 +27,10 @@ public class Appointment
     public bool IsFollowUp { get; set; }
 
     /// <summary>
-    /// Foreign key: ID of the patient.
-    /// </summary>
-    public required int PatientId { get; set; }
-
-    /// <summary>
     /// Navigation property to the patient.
     /// </summary>
     public required Patient Patient { get; set; }
 
-    /// <summary>
-    /// Foreign key: ID of the doctor.
-    /// </summary>
-    public required int DoctorId { get; set; }
 
     /// <summary>
     /// Navigation property to the doctor.

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Hospital.Domain.Enums;
+
 
 namespace Hospital.Domain.Entities;
 /// <summary>
@@ -58,5 +56,5 @@ public class Patient
     /// <summary>
     /// Collection of appointments for this patient.
     /// </summary>
-    public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+    public ICollection<Appointment> Appointments { get; set; } = [];
 }
