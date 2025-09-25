@@ -30,8 +30,4 @@ Hospital.Tests
 ├── Queries.cs
 ├── TestData.cs
 └── Tests.cs
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> f3d4cedb69ee60b8aa3c8b4546d3bf20c22511cb
