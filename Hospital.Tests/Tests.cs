@@ -3,22 +3,15 @@
 /// <summary>
 /// Unit tests.
 /// </summary>
-public class QueriesTests : IClassFixture<TestData>
+public class QueriesTests(TestData data) : IClassFixture<TestData>
 {
-    private readonly TestData _data;
-
-    public QueriesTests(TestData data)
-    {
-        _data = data;
-    }
-
     /// <summary>
     /// Verifies that only doctors with >= 10 years experience are returned.
     /// </summary>
     [Fact]
     public void DoctorsWith10PlusReturnsOnlyThoseWithExperienceAtLeast10()
     {
-        var result = Queries.DoctorsWith10Plus(_data.Doctors);
+        var result = Queries.DoctorsWith10Plus(data.Doctors);
         Assert.NotEmpty(result);
         Assert.All(result, d => Assert.True(d.ExperienceYears >= 10));
         Assert.DoesNotContain(result, d => d.ExperienceYears < 10);
@@ -30,7 +23,7 @@ public class QueriesTests : IClassFixture<TestData>
     [Fact]
     public void FollowUpsLastMonthCountsOnlyFollowUpsInWindow()
     {
-        var count = Queries.FollowUpsLastMonth(_data.Appointments, _data.Now);
+        var count = Queries.FollowUpsLastMonth(data.Appointments, data.Now);
         Assert.Equal(2, count);
     }
 
@@ -42,7 +35,7 @@ public class QueriesTests : IClassFixture<TestData>
     public void Patients30PlusMultiDoctorsFiltersAndOrdersByBirthDate()
     {
         var expectedNames = new[] { "Podtyagina Anastasia", "Yemets Timofey" };
-        var result = Queries.Patients30PlusMultiDoctors(_data.Appointments, _data.Today);
+        var result = Queries.Patients30PlusMultiDoctors(data.Appointments, data.Today);
         var names = result.Select(p => p.FullName).ToList();
         Assert.Equal(expectedNames, names);
     }
@@ -54,7 +47,7 @@ public class QueriesTests : IClassFixture<TestData>
     [Fact]
     public void ThisMonthInRoomFiltersByRoomAndCurrentMonthAndSortsByStart()
     {
-        var result = Queries.ThisMonthInRoom(_data.Appointments, "301", _data.Now);
+        var result = Queries.ThisMonthInRoom(data.Appointments, "301", data.Now);
         Assert.Equal(3, result.Count);
         Assert.True(result.Select(a => a.StartAt).SequenceEqual(result.Select(a => a.StartAt).OrderBy(t => t)));
     }
