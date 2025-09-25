@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Hospital.Domain.Entities;
+﻿namespace Hospital.Domain.Entities;
 /// <summary>
 /// Represents a scheduled appointment between a patient and a doctor.
 /// </summary>
@@ -30,7 +28,6 @@ public class Appointment
     /// Navigation property to the patient.
     /// </summary>
     public required Patient Patient { get; set; }
-
 
     /// <summary>
     /// Navigation property to the doctor.

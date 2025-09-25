@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Hospital.Domain.Entities;
+﻿using Hospital.Domain.Entities;
+using Hospital.Domain.Enums;
+
 
 namespace Hospital.Tests;
 
@@ -9,17 +8,29 @@ namespace Hospital.Tests;
 /// Provides deterministic seed data for unit tests. 
 /// Ensures tests are reproducible by using fixed dates and predictable data.
 /// </summary>
-public static class TestData
+public class TestData
 {
     /// <summary>
     /// Fixed "now" reference date used in tests (22 September 2025).
     /// </summary>
-    public static readonly DateTime Now = new(2025, 9, 22);
+    public DateTime Now { get; } = new(2025, 9, 15);
 
     /// <summary>
     /// Fixed "Today" reference date derived from "Now"/>.
     /// </summary>
-    public static readonly DateOnly Today = DateOnly.FromDateTime(Now.Date);
+    public DateOnly Today => DateOnly.FromDateTime(Now.Date);
+
+
+    public List<Doctor> Doctors { get; }
+    public List<Patient> Patients { get; }
+    public List<Appointment> Appointments { get; }
+
+    public TestData()
+    {
+        Doctors = BuildDoctors();
+        Patients = BuildPatients();
+        Appointments = BuildAppointments(Doctors, Patients);
+    }
 
     /// <summary>
     /// Builds a list of doctors with IDs, passports, names, birth years,
@@ -27,23 +38,23 @@ public static class TestData
     /// </summary>
     /// <returns>List of 10 doctors.</returns>
     public static List<Doctor> BuildDoctors()
-        => Enumerable.Range(1, 10).Select(i => new Doctor
+        => [.. Enumerable.Range(1, 10).Select(i => new Doctor
         {
             Id = i,
             Passport = $"D{i:000000}",
             FullName = $"Doctor {i}",
             BirthYear = 1970 + (i % 20),
-            Specialization = "Терапевт",
+            Specialization = DoctorSpecialization.Therapist,
             ExperienceYears = i + 5
-        }).ToList();
+        })];
 
     /// <summary>
     /// Builds a list of patients with IDs, passports, names, genders,
     /// and birthdates. Used for age and uniqueness tests.
     /// </summary>
     /// <returns>List of 10 patients.</returns>
-    public static List<Patient> BuildPatients() => new()
-    {
+    public static List<Patient> BuildPatients() =>
+    [
         new() { Id = 1,  Passport = "P000001", FullName = "Podtyagina Anastasia",  Gender = Gender.Female, BirthDate = new(1985, 1, 1) },
         new() { Id = 2,  Passport = "P000002", FullName = "Yemets Timofey",        Gender = Gender.Male,   BirthDate = new(1990, 2, 2) },
         new() { Id = 3,  Passport = "P000003", FullName = "Astsatryan Liliya",     Gender = Gender.Male,   BirthDate = new(2000, 3, 3) },
@@ -54,7 +65,7 @@ public static class TestData
         new() { Id = 8,  Passport = "P000008", FullName = "Klyushin Ivan",         Gender = Gender.Male,   BirthDate = new(1995, 8, 8) },
         new() { Id = 9,  Passport = "P000009", FullName = "Semenova Alexandra",    Gender = Gender.Female, BirthDate = new(1998, 9, 9) },
         new() { Id = 10, Passport = "P000010", FullName = "Grishin Nikita",        Gender = Gender.Male,   BirthDate = new(1987, 10, 10) },
-    };
+    ];
 
     /// <summary>
     /// Builds a deterministic set of appointments linking patients and doctors.
@@ -78,9 +89,7 @@ public static class TestData
                 RoomNumber = room,
                 IsFollowUp = followUp,
                 Patient = p,
-                PatientId = p.Id,
-                Doctor = d,
-                DoctorId = d.Id
+                Doctor = d
             });
         }
 

@@ -1,5 +1,4 @@
 ﻿using Hospital.Domain.Enums;
-using System;
 
 namespace Hospital.Domain.Entities;
 /// <summary>
