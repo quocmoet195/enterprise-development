@@ -1,0 +1,77 @@
+﻿using Hospital.Domain.Entities;
+using Hospital.Tests;
+using System.Data;
+
+namespace Hospital.Infrastructure.InMemory.Repositories;
+
+/// <summary>
+/// In-memory repository for managing <see cref="Patient"/> entities.
+/// Uses <see cref="TestData"/> as a data source for testing and development.
+/// </summary>
+public class PatientInMemoryRepository
+{
+    private readonly TestData _seed;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PatientInMemoryRepository"/> class
+    /// with the provided test data source.
+    /// </summary>
+    /// <param name="seed">An instance of <see cref="TestData"/> containing initial patients.</param>
+    public PatientInMemoryRepository(TestData seed) => _seed = seed;
+
+    /// <summary>
+    /// Retrieves all patients from the in-memory collection, ordered by their ID.
+    /// </summary>
+    /// <returns>A collection of all <see cref="Patient"/> objects.</returns>
+    public IEnumerable<Patient> GetAll() => _seed.Patients.OrderBy(x => x.Id);
+
+    /// <summary>
+    /// Retrieves a single patient by their unique identifier.
+    /// </summary>
+    /// <param name="id">The patient's ID.</param>
+    /// <returns>
+    /// The matching <see cref="Patient"/> if found; otherwise, <c>null</c>.
+    /// </returns>
+    public Patient? Get(int id) => _seed.Patients.FirstOrDefault(x => x.Id == id);
+
+    /// <summary>
+    /// Adds a new patient to the in-memory collection.
+    /// The patient ID is automatically generated.
+    /// </summary>
+    /// <param name="p">The <see cref="Patient"/> instance to add.</param>
+    /// <returns>The added <see cref="Patient"/> with its assigned ID.</returns>
+    public Patient Add(Patient p)
+    {
+        p.Id = (_seed.Patients.LastOrDefault()?.Id ?? 0) + 1;
+        _seed.Patients.Add(p);
+        return p;
+    }
+
+    /// <summary>
+    /// Updates an existing patient in the collection.
+    /// </summary>
+    /// <param name="p">The <see cref="Patient"/> instance with updated values.</param>
+    /// <returns>
+    /// <c>true</c> if the patient was successfully updated; otherwise, <c>false</c>.
+    /// </returns>
+    public bool Update(Patient p)
+    {
+        var idx = _seed.Patients.FindIndex(x => x.Id == p.Id);
+        if (idx < 0) return false;
+        _seed.Patients[idx] = p;
+        return true;
+    }
+
+    /// <summary>
+    /// Deletes a patient from the collection by their ID.
+    /// </summary>
+    /// <param name="id">The ID of the patient to delete.</param>
+    /// <returns>
+    /// <c>true</c> if the patient was found and removed; otherwise, <c>false</c>.
+    /// </returns>
+    public bool Delete(int id)
+    {
+        var e = Get(id);
+        return e != null && _seed.Patients.Remove(e);
+    }
+}
