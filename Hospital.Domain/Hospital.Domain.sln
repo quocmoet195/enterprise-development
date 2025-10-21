@@ -7,7 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Domain", "Hospital
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Tests", "..\Hospital.Tests\Hospital.Tests.csproj", "{398221D5-1718-4605-9128-17643DB92672}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Api.Host", "..\Hospital.Api.Host\Hospital.Api.Host.csproj", "{BD868E61-0DE7-4288-B0FF-A7A872F8E7CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Application.Contracts", "..\Hospital.Application.Contracts\Hospital.Application.Contracts.csproj", "{1D55CEC1-D10C-47AE-84FD-E7CC4DFF2C37}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Application", "..\Hospital.Application\Hospital.Application.csproj", "{5B16D959-88EA-4555-8022-A3E5D92A8801}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Infrastructure.InMemory", "..\Hospital.Infrastructure.InMemory\Hospital.Infrastructure.InMemory.csproj", "{6D8E2C1B-3230-4B8A-96D9-72968C4048C3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Api.Host", "..\Hospital.Api.Host\Hospital.Api.Host.csproj", "{2CBECE8C-D2A8-427C-9687-64F195626550}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +29,22 @@ Global
 		{398221D5-1718-4605-9128-17643DB92672}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{398221D5-1718-4605-9128-17643DB92672}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{398221D5-1718-4605-9128-17643DB92672}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BD868E61-0DE7-4288-B0FF-A7A872F8E7CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD868E61-0DE7-4288-B0FF-A7A872F8E7CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD868E61-0DE7-4288-B0FF-A7A872F8E7CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD868E61-0DE7-4288-B0FF-A7A872F8E7CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D55CEC1-D10C-47AE-84FD-E7CC4DFF2C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D55CEC1-D10C-47AE-84FD-E7CC4DFF2C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D55CEC1-D10C-47AE-84FD-E7CC4DFF2C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D55CEC1-D10C-47AE-84FD-E7CC4DFF2C37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B16D959-88EA-4555-8022-A3E5D92A8801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B16D959-88EA-4555-8022-A3E5D92A8801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B16D959-88EA-4555-8022-A3E5D92A8801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B16D959-88EA-4555-8022-A3E5D92A8801}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D8E2C1B-3230-4B8A-96D9-72968C4048C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D8E2C1B-3230-4B8A-96D9-72968C4048C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D8E2C1B-3230-4B8A-96D9-72968C4048C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D8E2C1B-3230-4B8A-96D9-72968C4048C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CBECE8C-D2A8-427C-9687-64F195626550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CBECE8C-D2A8-427C-9687-64F195626550}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CBECE8C-D2A8-427C-9687-64F195626550}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CBECE8C-D2A8-427C-9687-64F195626550}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
