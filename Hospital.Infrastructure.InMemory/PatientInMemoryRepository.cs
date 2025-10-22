@@ -34,7 +34,7 @@ public class PatientInMemoryRepository(TestData _seed) : IPatientRepository
     /// <returns>The added <see cref="Patient"/> with its assigned ID.</returns>
     public Patient Add(Patient p)
     {
-        p.Id = (_seed.Patients.LastOrDefault()?.Id ?? 0) + 1;
+        p.Id = (_seed.Patients.Any() ? _seed.Patients.Max(x => x.Id) : 0) + 1;
         _seed.Patients.Add(p);
         return p;
     }

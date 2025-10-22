@@ -34,7 +34,7 @@ public class AppointmentInMemoryRepository(TestData _seed) : IAppointmentReposit
     /// <returns>The added <see cref="Appointment"/> with its assigned ID.</returns>
     public Appointment Add(Appointment a)
     {
-        a.Id = (_seed.Appointments.LastOrDefault()?.Id ?? 0) + 1;
+        a.Id = (_seed.Patients.Any() ? _seed.Patients.Max(x => x.Id) : 0) + 1;
         _seed.Appointments.Add(a);
         return a;
     }

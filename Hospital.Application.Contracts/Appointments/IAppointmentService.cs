@@ -11,7 +11,7 @@ public interface IAppointmentService
     /// Returns all appointments.
     /// </summary>
     /// <returns>A sequence of <see cref="AppointmentDto"/>.</returns>
-    IEnumerable<AppointmentDto> GetAll();
+    public IEnumerable<AppointmentDto> GetAll();
 
     /// <summary>
     /// Returns a single appointment by its identifier.
@@ -20,14 +20,14 @@ public interface IAppointmentService
     /// <returns>
     /// The <see cref="AppointmentDto"/> if found; otherwise, <c>null</c>.
     /// </returns>
-    AppointmentDto? Get(int id);
+    public AppointmentDto? Get(int id);
 
     /// <summary>
     /// Creates a new appointment.
     /// </summary>
     /// <param name="input">The appointment data to create.</param>
     /// <returns>The created <see cref="AppointmentDto"/>.</returns>
-    AppointmentDto Create(AppointmentCreateUpdateDto input);
+    public AppointmentDto Create(AppointmentCreateUpdateDto input);
 
     /// <summary>
     /// Updates an existing appointment.
@@ -37,7 +37,7 @@ public interface IAppointmentService
     /// <returns>
     /// <c>true</c> if the appointment was updated; otherwise, <c>false</c>.
     /// </returns>
-    bool Update(int id, AppointmentCreateUpdateDto input);
+    public bool Update(int id, AppointmentCreateUpdateDto input);
 
     /// <summary>
     /// Deletes an appointment by its identifier.
@@ -46,5 +46,5 @@ public interface IAppointmentService
     /// <returns>
     /// <c>true</c> if the appointment was deleted; otherwise, <c>false</c>.
     /// </returns>
-    bool Delete(int id);
+    public bool Delete(int id);
 }

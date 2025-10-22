@@ -11,7 +11,7 @@ public interface IDoctorService
     /// Returns all doctors.
     /// </summary>
     /// <returns>A sequence of <see cref="DoctorDto"/>.</returns>
-    IEnumerable<DoctorDto> GetAll();
+    public IEnumerable<DoctorDto> GetAll();
 
     /// <summary>
     /// Returns a single doctor by its identifier.
@@ -20,14 +20,14 @@ public interface IDoctorService
     /// <returns>
     /// The <see cref="DoctorDto"/> if found; otherwise, <c>null</c>.
     /// </returns>
-    DoctorDto? Get(int id);
+    public DoctorDto? Get(int id);
 
     /// <summary>
     /// Creates a new doctor.
     /// </summary>
     /// <param name="input">The doctor data to create.</param>
     /// <returns>The created <see cref="DoctorDto"/>.</returns>
-    DoctorDto Create(DoctorCreateUpdateDto input);
+    public DoctorDto Create(DoctorCreateUpdateDto input);
 
     /// <summary>
     /// Updates an existing doctor.
@@ -37,7 +37,7 @@ public interface IDoctorService
     /// <returns>
     /// <c>true</c> if the doctor was updated; otherwise, <c>false</c>.
     /// </returns>
-    bool Update(int id, DoctorCreateUpdateDto input);
+    public bool Update(int id, DoctorCreateUpdateDto input);
 
     /// <summary>
     /// Deletes a doctor by its identifier.
@@ -46,5 +46,5 @@ public interface IDoctorService
     /// <returns>
     /// <c>true</c> if the doctor was deleted; otherwise, <c>false</c>.
     /// </returns>
-    bool Delete(int id);
+    public bool Delete(int id);
 }
