@@ -43,6 +43,7 @@ Hospital.Domain
     └── DoctorSpecialization.cs
 
 Hospital.Application.Contracts
+<<<<<<< HEAD
 ├── Doctors/
 │   ├── DoctorDto.cs
 │   └── DoctorCreateUpdateDto.cs
@@ -52,10 +53,25 @@ Hospital.Application.Contracts
 ├── Appointments/
 │   ├── AppointmentDto.cs
 │   └── AppointmentCreateUpdateDto.cs
+=======
+├── Appointments/
+│   ├── AppointmentCreateUpdateDtoAppointmentDto.cs
+│   ├── AppointmentDto.cs
+|   └── IAppointmentService
+├── Doctors/
+│   ├── DoctorCreateUpdateDto.cs
+│   ├── DoctorDto.cs
+│   └── IDoctorService.cs
+├── Patients/
+│   ├── IPatientService.cs
+│   ├── PatientCreateUpdateDto.cs
+│   └── PatientDto.cs
+>>>>>>> ba4d4b72696cb5f733ae65bb8e7b9cd1a088ca72
 └── IAnalyticsService.cs
 
 Hospital.Application
 ├── Services/
+<<<<<<< HEAD
 │   ├── DoctorService.cs
 │   ├── PatientService.cs
 │   ├── AppointmentService.cs
@@ -74,6 +90,25 @@ Hospital.Api.Host
 │   ├── PatientController.cs
 │   ├── AppointmentController.cs
 │   └── AnalyticsController.cs
+=======
+│   ├── AnalyticsService.cs
+│   ├── AppointmentService.cs
+│   ├── DoctorService.cs
+│   └── PatientService.cs
+└── HospitalProfile.cs
+
+Hospital.Infrastructure.InMemory
+  ├── AppointmentInMemoryRepository.cs
+  ├── DoctorInMemoryRepository.cs
+  └── PatientInMemoryRepository.cs
+
+Hospital.Api.Host
+├── Controllers/
+│   ├── AnalyticsController.cs
+│   ├── AppointmentController.cs
+│   ├── DoctorController.cs
+│   └── PatientController.cs
+>>>>>>> ba4d4b72696cb5f733ae65bb8e7b9cd1a088ca72
 └── Program.cs
 
 Hospital.Tests
