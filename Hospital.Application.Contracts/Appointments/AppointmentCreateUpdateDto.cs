@@ -1,4 +1,6 @@
-﻿namespace Hospital.Application.Contracts.Appointments;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Hospital.Application.Contracts.Appointments;
 
 /// <summary>
 /// DTO for creating or updating an appointment record.
@@ -20,8 +22,9 @@
 /// The unique identifier of the patient attending the appointment.
 /// </param>
 public record AppointmentCreateUpdateDto(
-    DateTime? StartAt,
-    string? RoomNumber,
+    [Required] DateTime StartAt,
+    [Required, StringLength(20)] string RoomNumber,
     bool IsFollowUp,
-    int DoctorId,
-    int PatientId);
+    [Range(1, int.MaxValue)] int DoctorId,
+    [Range(1, int.MaxValue)] int PatientId
+);

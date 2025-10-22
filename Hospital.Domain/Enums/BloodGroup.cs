@@ -23,5 +23,5 @@ public enum BloodGroup
     /// <summary>
     /// Blood group AB (IV).
     /// </summary>
-    AB
+    Ab
 }

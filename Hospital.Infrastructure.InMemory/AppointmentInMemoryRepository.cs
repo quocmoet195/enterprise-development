@@ -1,4 +1,5 @@
 ﻿using Hospital.Domain.Entities;
+using Hospital.Domain.Interfaces;
 using Hospital.Tests;
 using System.Data;
 
@@ -8,7 +9,7 @@ namespace Hospital.Infrastructure.InMemory;
 /// In-memory repository for managing <see cref="Appointment"/> entities.
 /// Uses <see cref="TestData"/> as a simple data source for testing and development.
 /// </summary>
-public class AppointmentInMemoryRepository(TestData _seed)
+public class AppointmentInMemoryRepository(TestData _seed) : IAppointmentRepository
 {
     /// <summary>
     /// Retrieves all appointments from the in-memory collection, ordered by their ID.

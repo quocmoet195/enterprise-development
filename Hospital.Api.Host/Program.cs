@@ -1,8 +1,9 @@
-using Hospital.Application;
-using Hospital.Application.Services;
-using Hospital.Application.Contracts;
+using Hospital.Application;                         
+using Hospital.Application.Contracts;                
+using Hospital.Application.Services;               
+using Hospital.Domain.Interfaces;                   
 using Hospital.Infrastructure.InMemory;
-using Hospital.Tests;
+using Hospital.Tests;                               
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,9 +19,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddAutoMapper(typeof(HospitalProfile));
 
 builder.Services.AddSingleton<TestData>();
-builder.Services.AddSingleton<DoctorInMemoryRepository>();
-builder.Services.AddSingleton<PatientInMemoryRepository>();
-builder.Services.AddSingleton<AppointmentInMemoryRepository>();
+
+builder.Services.AddScoped<IDoctorRepository, DoctorInMemoryRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientInMemoryRepository>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentInMemoryRepository>();
 
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
@@ -35,6 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

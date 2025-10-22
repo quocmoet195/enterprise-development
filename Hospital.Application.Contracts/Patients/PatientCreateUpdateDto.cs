@@ -1,4 +1,5 @@
 ﻿using Hospital.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospital.Application.Contracts.Patients;
 
@@ -30,12 +31,12 @@ namespace Hospital.Application.Contracts.Patients;
 /// The contact phone number of the patient.
 /// </param>
 public record PatientCreateUpdateDto(
-    string Passport,
-    string FullName,
-    Gender Gender,
-    DateOnly BirthDate,
-    string Address,
-    BloodGroup BloodGroup,
-    RhesusFactor Rhesus,
-    string Phone
+    [Required, StringLength(50)] string Passport,
+    [Required, StringLength(200)] string FullName,
+    [Required] Gender Gender,
+    [Required] DateOnly BirthDate,
+    [Required, StringLength(300)] string Address,
+    [Required] BloodGroup BloodGroup,
+    [Required] RhesusFactor Rhesus,
+    [Required, StringLength(50)] string Phone
 );

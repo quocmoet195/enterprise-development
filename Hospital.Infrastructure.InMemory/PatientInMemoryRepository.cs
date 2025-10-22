@@ -1,4 +1,5 @@
 ﻿using Hospital.Domain.Entities;
+using Hospital.Domain.Interfaces;
 using Hospital.Tests;
 using System.Data;
 
@@ -8,7 +9,7 @@ namespace Hospital.Infrastructure.InMemory;
 /// In-memory repository for managing <see cref="Patient"/> entities.
 /// Uses <see cref="TestData"/> as a data source for testing and development.
 /// </summary>
-public class PatientInMemoryRepository(TestData _seed)
+public class PatientInMemoryRepository(TestData _seed) : IPatientRepository
 {
     /// <summary>
     /// Retrieves all patients from the in-memory collection, ordered by their ID.

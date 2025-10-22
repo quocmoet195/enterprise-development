@@ -2,14 +2,14 @@
 using Hospital.Application.Contracts;
 using Hospital.Application.Contracts.Patients;
 using Hospital.Domain.Entities;
-using Hospital.Infrastructure.InMemory;
+using Hospital.Domain.Interfaces;
 
 namespace Hospital.Application.Services;
 
 /// <summary>
 /// Provides CRUD operations for managing patient data in the hospital system.
 /// </summary>
-public class PatientService(PatientInMemoryRepository repo, IMapper mapper) : IPatientService
+public class PatientService(IPatientRepository repo, IMapper mapper) : IPatientService
 {
     /// <summary>
     /// Retrieves all patients from the repository.
@@ -39,17 +39,7 @@ public class PatientService(PatientInMemoryRepository repo, IMapper mapper) : IP
     /// </returns>
     public PatientDto Create(PatientCreateUpdateDto input)
     {
-        var entity = new Patient
-        {
-            Passport = input.Passport,
-            FullName = input.FullName,
-            Gender = input.Gender,
-            BirthDate = input.BirthDate,
-            Address = input.Address,
-            BloodGroup = input.BloodGroup,
-            Rhesus = input.Rhesus,
-            Phone = input.Phone
-        };
+        var entity = mapper.Map<Patient>(input);
 
         var created = repo.Add(entity);
         return mapper.Map<PatientDto>(created);
@@ -68,14 +58,7 @@ public class PatientService(PatientInMemoryRepository repo, IMapper mapper) : IP
         var entity = repo.Get(id);
         if (entity is null) return false;
 
-        entity.Passport = input.Passport;
-        entity.FullName = input.FullName;
-        entity.Gender = input.Gender;
-        entity.BirthDate = input.BirthDate;
-        entity.Address = input.Address;
-        entity.BloodGroup = input.BloodGroup;
-        entity.Rhesus = input.Rhesus;
-        entity.Phone = input.Phone;
+        mapper.Map(input, entity);
 
         return repo.Update(entity);
     }

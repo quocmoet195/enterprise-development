@@ -1,4 +1,6 @@
-﻿namespace Hospital.Application.Contracts.Doctors;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Hospital.Application.Contracts.Doctors;
 
 /// <summary>
 /// DTO for creating or updating a doctor record.
@@ -16,8 +18,8 @@
 /// The medical specialization of the doctor (e.g., "Therapist", "Surgeon").
 /// </param>
 public record DoctorCreateUpdateDto(
-    string FullName,
-    int BirthYear,
-    int ExperienceYears,
-    string Specialization
+    [Required, StringLength(200)] string FullName,
+    [Range(1900, 2100)] int BirthYear,
+    [Range(0, 80)] int ExperienceYears,
+    [Required, StringLength(100)] string Specialization
 );

@@ -7,55 +7,50 @@ using Hospital.Domain.Entities;
 namespace Hospital.Application;
 
 /// <summary>
-/// Defines mapping configurations between domain entities and DTOs
-/// for the Hospital application.
+/// Defines AutoMapper configuration for the Hospital application.
+/// Maps between domain entities (<see cref="Doctor"/>, <see cref="Patient"/>, <see cref="Appointment"/>) 
+/// and their corresponding Data Transfer Objects (DTOs).
 /// </summary>
 public class HospitalProfile : Profile
 {
     /// <summary>
-    /// Initializes the <see cref="HospitalProfile"/> and defines all entity-to-DTO mappings.
+    /// Initializes a new instance of the <see cref="HospitalProfile"/> class.
+    /// Configures mapping rules for doctors, patients, and appointments.
     /// </summary>
     public HospitalProfile()
     {
-        // Maps specialization enum to string.
+        // Doctor mappings
+        CreateMap<DoctorCreateUpdateDto, Doctor>()
+            .ForMember(d => d.Passport, opt => opt.Ignore()); 
+
         CreateMap<Doctor, DoctorDto>()
-            .ForCtorParam(
-                nameof(DoctorDto.Specialization),
-                opt => opt.MapFrom(src => src.Specialization.ToString())
-            );
+            .ForCtorParam(nameof(DoctorDto.Specialization),
+                opt => opt.MapFrom(src => src.Specialization.ToString()));
 
-        // Maps enum values (Gender, BloodGroup, Rhesus) to readable strings.
+        // Patient mappings
+        CreateMap<PatientCreateUpdateDto, Patient>();
+
         CreateMap<Patient, PatientDto>()
-            .ForCtorParam(
-                nameof(PatientDto.Gender),
-                opt => opt.MapFrom(src => src.Gender.ToString())
-            )
-            .ForCtorParam(
-                nameof(PatientDto.BloodGroup),
-                opt => opt.MapFrom(src => src.BloodGroup.ToString())
-            )
-            .ForCtorParam(
-                nameof(PatientDto.Rhesus),
-                opt => opt.MapFrom(src => src.Rhesus.ToString())
-            );
+            .ForCtorParam(nameof(PatientDto.Gender),
+                opt => opt.MapFrom(src => src.Gender.ToString()))
+            .ForCtorParam(nameof(PatientDto.BloodGroup),
+                opt => opt.MapFrom(src => src.BloodGroup.ToString()))
+            .ForCtorParam(nameof(PatientDto.Rhesus),
+                opt => opt.MapFrom(src => src.Rhesus.ToString()));
 
-        // Includes doctor/patient names and IDs for display in API results.
+        // Appointment mappings
+        CreateMap<AppointmentCreateUpdateDto, Appointment>()
+            .ForMember(a => a.Doctor, opt => opt.Ignore()) 
+            .ForMember(a => a.Patient, opt => opt.Ignore());
+
         CreateMap<Appointment, AppointmentDto>()
-            .ForCtorParam(
-                nameof(AppointmentDto.DoctorId),
-                opt => opt.MapFrom(src => src.Doctor!.Id)
-            )
-            .ForCtorParam(
-                nameof(AppointmentDto.DoctorName),
-                opt => opt.MapFrom(src => src.Doctor!.FullName)
-            )
-            .ForCtorParam(
-                nameof(AppointmentDto.PatientId),
-                opt => opt.MapFrom(src => src.Patient!.Id)
-            )
-            .ForCtorParam(
-                nameof(AppointmentDto.PatientName),
-                opt => opt.MapFrom(src => src.Patient!.FullName)
-            );
+            .ForCtorParam(nameof(AppointmentDto.DoctorId),
+                opt => opt.MapFrom(src => src.Doctor!.Id))
+            .ForCtorParam(nameof(AppointmentDto.DoctorName),
+                opt => opt.MapFrom(src => src.Doctor!.FullName))
+            .ForCtorParam(nameof(AppointmentDto.PatientId),
+                opt => opt.MapFrom(src => src.Patient!.Id))
+            .ForCtorParam(nameof(AppointmentDto.PatientName),
+                opt => opt.MapFrom(src => src.Patient!.FullName));
     }
 }

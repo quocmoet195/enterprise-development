@@ -3,14 +3,14 @@ using Hospital.Application.Contracts;
 using Hospital.Application.Contracts.Doctors;
 using Hospital.Domain.Entities;
 using Hospital.Domain.Enums;
-using Hospital.Infrastructure.InMemory;
+using Hospital.Domain.Interfaces;
 
 namespace Hospital.Application.Services;
 
 /// <summary>
 /// Provides operations for managing doctor data, including CRUD functionality.
 /// </summary>
-public class DoctorService(DoctorInMemoryRepository repo, IMapper mapper) : IDoctorService
+public class DoctorService(IDoctorRepository repo, IMapper mapper) : IDoctorService
 {
     /// <summary>
     /// Retrieves all doctors available in the system.
@@ -44,18 +44,15 @@ public class DoctorService(DoctorInMemoryRepository repo, IMapper mapper) : IDoc
     /// </remarks>
     public DoctorDto Create(DoctorCreateUpdateDto input)
     {
-        var spec = Enum.TryParse<DoctorSpecialization>(input.Specialization, true, out var s)
-            ? s : DoctorSpecialization.Other;
+        var entity = mapper.Map<Doctor>(input);
 
-        var created = repo.Add(new Doctor
-        {
-            FullName = input.FullName,
-            BirthYear = input.BirthYear,
-            ExperienceYears = input.ExperienceYears,
-            Specialization = spec,
-            Passport = "" // auto-generated or placeholder
-        });
+        entity.Passport ??= $"D{DateTime.UtcNow.Ticks % 1_000_000:000000}";
 
+        if (!Enum.TryParse<DoctorSpecialization>(input.Specialization, true, out var spec))
+            spec = DoctorSpecialization.Other;
+        entity.Specialization = spec;
+
+        var created = repo.Add(entity);
         return mapper.Map<DoctorDto>(created);
     }
 
@@ -72,11 +69,11 @@ public class DoctorService(DoctorInMemoryRepository repo, IMapper mapper) : IDoc
         var entity = repo.Get(id);
         if (entity is null) return false;
 
-        entity.FullName = input.FullName;
-        entity.BirthYear = input.BirthYear;
-        entity.ExperienceYears = input.ExperienceYears;
-        entity.Specialization = Enum.TryParse<DoctorSpecialization>(input.Specialization, true, out var s)
-            ? s : DoctorSpecialization.Other;
+        mapper.Map(input, entity);
+
+        if (!Enum.TryParse<DoctorSpecialization>(input.Specialization, true, out var spec))
+            spec = DoctorSpecialization.Other;
+        entity.Specialization = spec;
 
         return repo.Update(entity);
     }

@@ -2,7 +2,7 @@
 using Hospital.Application.Contracts.Appointments;
 using Hospital.Application.Contracts;
 using Hospital.Domain.Entities;
-using Hospital.Infrastructure.InMemory;
+using Hospital.Domain.Interfaces;
 
 namespace Hospital.Application.Services;
 
@@ -14,9 +14,9 @@ namespace Hospital.Application.Services;
 /// Uses <see cref="AutoMapper"/> to map between domain entities and DTOs.
 /// </remarks>
 public class AppointmentService(
-    AppointmentInMemoryRepository repo,
-    PatientInMemoryRepository patients,
-    DoctorInMemoryRepository doctors,
+    IAppointmentRepository repo,
+    IPatientRepository patients,
+    IDoctorRepository doctors,
     IMapper mapper) : IAppointmentService
 {
     /// <summary>
@@ -55,14 +55,11 @@ public class AppointmentService(
         var doctor = doctors.Get(input.DoctorId)
                      ?? throw new KeyNotFoundException($"Doctor {input.DoctorId} not found");
 
-        var created = repo.Add(new Appointment
-        {
-            StartAt = input.StartAt,
-            RoomNumber = input.RoomNumber,
-            IsFollowUp = input.IsFollowUp,
-            Patient = patient,
-            Doctor = doctor
-        });
+        var entity = mapper.Map<Appointment>(input);
+        entity.Doctor = doctor;
+        entity.Patient = patient;
+
+        var created = repo.Add(entity);
 
         return mapper.Map<AppointmentDto>(created);
     }
@@ -88,11 +85,9 @@ public class AppointmentService(
         var doctor = doctors.Get(input.DoctorId)
                      ?? throw new KeyNotFoundException($"Doctor {input.DoctorId} not found");
 
-        entity.StartAt = input.StartAt;
-        entity.RoomNumber = input.RoomNumber;
-        entity.IsFollowUp = input.IsFollowUp;
-        entity.Patient = patient;
+        mapper.Map(input, entity);
         entity.Doctor = doctor;
+        entity.Patient = patient;
 
         return repo.Update(entity);
     }
