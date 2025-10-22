@@ -2,23 +2,14 @@
 using Hospital.Tests;
 using System.Data;
 
-namespace Hospital.Infrastructure.InMemory.Repositories;
+namespace Hospital.Infrastructure.InMemory;
 
 /// <summary>
 /// In-memory repository for managing <see cref="Appointment"/> entities.
 /// Uses <see cref="TestData"/> as a simple data source for testing and development.
 /// </summary>
-public class AppointmentInMemoryRepository
+public class AppointmentInMemoryRepository(TestData _seed)
 {
-    private readonly TestData _seed;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AppointmentInMemoryRepository"/> class
-    /// with the provided test data source.
-    /// </summary>
-    /// <param name="seed">An instance of <see cref="TestData"/> containing initial appointments.</param>
-    public AppointmentInMemoryRepository(TestData seed) => _seed = seed;
-
     /// <summary>
     /// Retrieves all appointments from the in-memory collection, ordered by their ID.
     /// </summary>
@@ -60,7 +51,7 @@ public class AppointmentInMemoryRepository
         if (idx < 0) return false;
         _seed.Appointments[idx] = a;
         return true;
-    }
+        }
 
     /// <summary>
     /// Deletes an appointment from the collection by its ID.

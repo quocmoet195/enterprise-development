@@ -2,23 +2,14 @@
 using Hospital.Tests;
 using System.Data;
 
-namespace Hospital.Infrastructure.InMemory.Repositories;
+namespace Hospital.Infrastructure.InMemory;
 
 /// <summary>
 /// In-memory repository for managing <see cref="Patient"/> entities.
 /// Uses <see cref="TestData"/> as a data source for testing and development.
 /// </summary>
-public class PatientInMemoryRepository
+public class PatientInMemoryRepository(TestData _seed)
 {
-    private readonly TestData _seed;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PatientInMemoryRepository"/> class
-    /// with the provided test data source.
-    /// </summary>
-    /// <param name="seed">An instance of <see cref="TestData"/> containing initial patients.</param>
-    public PatientInMemoryRepository(TestData seed) => _seed = seed;
-
     /// <summary>
     /// Retrieves all patients from the in-memory collection, ordered by their ID.
     /// </summary>

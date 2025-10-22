@@ -1,7 +1,7 @@
 using Hospital.Application;
 using Hospital.Application.Services;
 using Hospital.Application.Contracts;
-using Hospital.Infrastructure.InMemory.Repositories;
+using Hospital.Infrastructure.InMemory;
 using Hospital.Tests;
 using Microsoft.OpenApi.Models;
 

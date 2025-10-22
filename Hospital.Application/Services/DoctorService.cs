@@ -3,7 +3,7 @@ using Hospital.Application.Contracts;
 using Hospital.Application.Contracts.Doctors;
 using Hospital.Domain.Entities;
 using Hospital.Domain.Enums;
-using Hospital.Infrastructure.InMemory.Repositories;
+using Hospital.Infrastructure.InMemory;
 
 namespace Hospital.Application.Services;
 

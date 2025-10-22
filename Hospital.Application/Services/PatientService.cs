@@ -2,7 +2,7 @@
 using Hospital.Application.Contracts;
 using Hospital.Application.Contracts.Patients;
 using Hospital.Domain.Entities;
-using Hospital.Infrastructure.InMemory.Repositories;
+using Hospital.Infrastructure.InMemory;
 
 namespace Hospital.Application.Services;
 
