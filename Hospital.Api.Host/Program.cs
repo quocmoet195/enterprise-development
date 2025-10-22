@@ -1,5 +1,8 @@
-using Hospital.Application;                         
-using Hospital.Application.Contracts;                
+using Hospital.Application;
+using Hospital.Application.Contracts;
+using Hospital.Application.Contracts.Appointments;
+using Hospital.Application.Contracts.Doctors;
+using Hospital.Application.Contracts.Patients;
 using Hospital.Application.Services;               
 using Hospital.Domain.Interfaces;                   
 using Hospital.Infrastructure.InMemory;

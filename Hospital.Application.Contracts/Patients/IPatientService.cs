@@ -1,6 +1,4 @@
-﻿using Hospital.Application.Contracts.Patients;
-
-namespace Hospital.Application.Contracts;
+﻿namespace Hospital.Application.Contracts.Patients;
 
 /// <summary>
 /// Application service that provides CRUD operations for patients.

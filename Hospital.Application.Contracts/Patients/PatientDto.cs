@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Hospital.Application.Contracts.Patients;
+﻿namespace Hospital.Application.Contracts.Patients;
 
 /// <summary>
 /// DTO representing a patient returned from the API.

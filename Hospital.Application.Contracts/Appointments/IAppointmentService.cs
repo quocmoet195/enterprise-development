@@ -1,6 +1,4 @@
-﻿using Hospital.Application.Contracts.Appointments;
-
-namespace Hospital.Application.Contracts;
+﻿namespace Hospital.Application.Contracts.Appointments;
 
 /// <summary>
 /// Application service that provides CRUD operations and queries for appointments.
