@@ -1,7 +1,6 @@
 ﻿using Hospital.Domain.Entities;
 using Hospital.Domain.Interfaces;
-using Hospital.Tests;
-using System.Data;
+using Hospital.Infrastructure.InMemory.Seed;
 
 namespace Hospital.Infrastructure.InMemory;
 
@@ -9,13 +8,13 @@ namespace Hospital.Infrastructure.InMemory;
 /// In-memory repository for managing <see cref="Appointment"/> entities.
 /// Uses <see cref="TestData"/> as a simple data source for testing and development.
 /// </summary>
-public class AppointmentInMemoryRepository(TestData _seed) : IAppointmentRepository
+public class AppointmentInMemoryRepository(InMemoryData seed) : IAppointmentRepository
 {
     /// <summary>
     /// Retrieves all appointments from the in-memory collection, ordered by their ID.
     /// </summary>
     /// <returns>A collection of all <see cref="Appointment"/> objects.</returns>
-    public IEnumerable<Appointment> GetAll() => _seed.Appointments.OrderBy(x => x.Id);
+    public IEnumerable<Appointment> GetAll() => seed.Appointments.OrderBy(x => x.Id);
 
     /// <summary>
     /// Retrieves a single appointment by its unique identifier.
@@ -24,7 +23,7 @@ public class AppointmentInMemoryRepository(TestData _seed) : IAppointmentReposit
     /// <returns>
     /// The matching <see cref="Appointment"/> if found; otherwise, <c>null</c>.
     /// </returns>
-    public Appointment? Get(int id) => _seed.Appointments.FirstOrDefault(x => x.Id == id);
+    public Appointment? Get(int id) => seed.Appointments.FirstOrDefault(x => x.Id == id);
 
     /// <summary>
     /// Adds a new appointment to the in-memory collection.
@@ -34,8 +33,8 @@ public class AppointmentInMemoryRepository(TestData _seed) : IAppointmentReposit
     /// <returns>The added <see cref="Appointment"/> with its assigned ID.</returns>
     public Appointment Add(Appointment a)
     {
-        a.Id = (_seed.Patients.Any() ? _seed.Patients.Max(x => x.Id) : 0) + 1;
-        _seed.Appointments.Add(a);
+        a.Id = (seed.Patients.Count != 0 ? seed.Patients.Max(x => x.Id) : 0) + 1;
+        seed.Appointments.Add(a);
         return a;
     }
 
@@ -48,9 +47,9 @@ public class AppointmentInMemoryRepository(TestData _seed) : IAppointmentReposit
     /// </returns>
     public bool Update(Appointment a)
     {
-        var idx = _seed.Appointments.FindIndex(x => x.Id == a.Id);
+        var idx = seed.Appointments.FindIndex(x => x.Id == a.Id);
         if (idx < 0) return false;
-        _seed.Appointments[idx] = a;
+        seed.Appointments[idx] = a;
         return true;
         }
 
@@ -64,6 +63,6 @@ public class AppointmentInMemoryRepository(TestData _seed) : IAppointmentReposit
     public bool Delete(int id)
     {
         var e = Get(id);
-        return e != null && _seed.Appointments.Remove(e);
+        return e != null && seed.Appointments.Remove(e);
     }
 }

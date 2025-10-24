@@ -1,5 +1,4 @@
-﻿using Hospital.Application.Contracts;
-using Hospital.Application.Contracts.Patients;
+﻿using Hospital.Application.Contracts.Patients;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hospital.Api.Host.Controllers;

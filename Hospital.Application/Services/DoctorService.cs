@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Hospital.Application.Contracts;
 using Hospital.Application.Contracts.Doctors;
 using Hospital.Domain.Entities;
 using Hospital.Domain.Enums;

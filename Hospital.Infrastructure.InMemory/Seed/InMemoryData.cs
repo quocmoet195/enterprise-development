@@ -1,13 +1,9 @@
 ﻿using Hospital.Domain.Entities;
 using Hospital.Domain.Enums;
 
-namespace Hospital.Tests;
+namespace Hospital.Infrastructure.InMemory.Seed; 
 
-/// <summary>
-/// Provides deterministic seed data for unit tests. 
-/// Ensures tests are reproducible by using fixed dates and predictable data.
-/// </summary>
-public class TestData
+public class InMemoryData
 {
     /// <summary>
     /// Fixed "now" reference date used in tests (22 September 2025).
@@ -23,7 +19,7 @@ public class TestData
     public List<Patient> Patients { get; }
     public List<Appointment> Appointments { get; }
 
-    public TestData()
+    public InMemoryData()
     {
         Doctors = BuildDoctors();
         Patients = BuildPatients();
@@ -99,8 +95,8 @@ public class TestData
         // FollowUpsLastMonth window [2025-08-15..2025-09-15]
         Add(P(3), D(2), new(2025, 8, 20, 12, 0, 0), "102", true);
         Add(P(4), D(3), new(2025, 9, 01, 13, 0, 0), "103", true);
-        Add(P(5), D(4), new(2025, 7, 10, 14, 0, 0), "104", true); 
-        Add(P(6), D(5), new(2025, 9, 16, 15, 0, 0), "105", true); 
+        Add(P(5), D(4), new(2025, 7, 10, 14, 0, 0), "104", true);
+        Add(P(6), D(5), new(2025, 9, 16, 15, 0, 0), "105", true);
         Add(P(7), D(6), new(2025, 9, 05, 9, 0, 0), "101", false);
 
         // Patients30PlusMultiDoctors
@@ -116,9 +112,9 @@ public class TestData
         Add(P(8), D(7), new(2025, 9, 01, 8, 0, 0), "301");
         Add(P(9), D(7), new(2025, 9, 15, 10, 0, 0), "301");
         Add(P(10), D(7), new(2025, 9, 28, 13, 0, 0), "301");
-        Add(P(8), D(7), new(2025, 8, 31, 8, 0, 0), "301"); 
-        Add(P(9), D(8), new(2025, 10, 01, 8, 0, 0), "301"); 
-        Add(P(10), D(7), new(2025, 9, 20, 8, 0, 0), "302"); 
+        Add(P(8), D(7), new(2025, 8, 31, 8, 0, 0), "301");
+        Add(P(9), D(8), new(2025, 10, 01, 8, 0, 0), "301");
+        Add(P(10), D(7), new(2025, 9, 20, 8, 0, 0), "302");
 
         return apps;
     }

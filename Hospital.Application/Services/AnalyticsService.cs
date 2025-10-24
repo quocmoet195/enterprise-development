@@ -12,7 +12,6 @@ namespace Hospital.Application.Services;
 /// </summary>
 public class AnalyticsService(
     IDoctorRepository doctors,
-    IPatientRepository patients,
     IAppointmentRepository appointments,
     IMapper mapper) : IAnalyticsService
 {

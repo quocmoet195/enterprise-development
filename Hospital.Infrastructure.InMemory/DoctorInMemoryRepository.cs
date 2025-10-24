@@ -1,7 +1,6 @@
 ﻿using Hospital.Domain.Entities;
 using Hospital.Domain.Interfaces;
-using Hospital.Tests;
-using System.Data;
+using Hospital.Infrastructure.InMemory.Seed;
 
 namespace Hospital.Infrastructure.InMemory;
 
@@ -9,13 +8,13 @@ namespace Hospital.Infrastructure.InMemory;
 /// In-memory repository for managing <see cref="Doctor"/> entities.
 /// Uses <see cref="TestData"/> as a data source for testing and development.
 /// </summary>
-public class DoctorInMemoryRepository(TestData _seed) : IDoctorRepository
+public class DoctorInMemoryRepository(InMemoryData seed) : IDoctorRepository
 {
     /// <summary>
     /// Retrieves all doctors from the in-memory collection, ordered by their ID.
     /// </summary>
     /// <returns>A collection of all <see cref="Doctor"/> objects.</returns>
-    public IEnumerable<Doctor> GetAll() => _seed.Doctors.OrderBy(x => x.Id);
+    public IEnumerable<Doctor> GetAll() => seed.Doctors.OrderBy(x => x.Id);
 
     /// <summary>
     /// Retrieves a single doctor by their unique identifier.
@@ -24,7 +23,7 @@ public class DoctorInMemoryRepository(TestData _seed) : IDoctorRepository
     /// <returns>
     /// The matching <see cref="Doctor"/> if found; otherwise, <c>null</c>.
     /// </returns>
-    public Doctor? Get(int id) => _seed.Doctors.FirstOrDefault(x => x.Id == id);
+    public Doctor? Get(int id) => seed.Doctors.FirstOrDefault(x => x.Id == id);
 
     /// <summary>
     /// Adds a new doctor to the in-memory collection.
@@ -34,8 +33,8 @@ public class DoctorInMemoryRepository(TestData _seed) : IDoctorRepository
     /// <returns>The added <see cref="Doctor"/> with its assigned ID.</returns>
     public Doctor Add(Doctor d)
     {
-        d.Id = (_seed.Patients.Any() ? _seed.Patients.Max(x => x.Id) : 0) + 1;
-        _seed.Doctors.Add(d);
+        d.Id = (seed.Patients.Count != 0 ? seed.Patients.Max(x => x.Id) : 0) + 1;
+        seed.Doctors.Add(d);
         return d;
     }
 
@@ -48,9 +47,9 @@ public class DoctorInMemoryRepository(TestData _seed) : IDoctorRepository
     /// </returns>
     public bool Update(Doctor d)
     {
-        var idx = _seed.Doctors.FindIndex(x => x.Id == d.Id);
+        var idx = seed.Doctors.FindIndex(x => x.Id == d.Id);
         if (idx < 0) return false;
-        _seed.Doctors[idx] = d;
+        seed.Doctors[idx] = d;
         return true;
     }
 
@@ -64,6 +63,6 @@ public class DoctorInMemoryRepository(TestData _seed) : IDoctorRepository
     public bool Delete(int id)
     {
         var e = Get(id);
-        return e != null && _seed.Doctors.Remove(e);
+        return e != null && seed.Doctors.Remove(e);
     }
 }

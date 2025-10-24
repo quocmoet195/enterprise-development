@@ -1,4 +1,3 @@
-using Hospital.Application.Contracts;
 using Hospital.Application.Contracts.Doctors;
 using Microsoft.AspNetCore.Mvc;
 

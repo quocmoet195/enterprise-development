@@ -6,9 +6,9 @@
 /// <typeparam name="T">Entity type.</typeparam>
 public interface IRepository<T>
 {
-    IEnumerable<T> GetAll();
-    T? Get(int id);
-    T Add(T entity);
-    bool Update(T entity);
-    bool Delete(int id);
+    public IEnumerable<T> GetAll();
+    public T? Get(int id);
+    public T Add(T entity);
+    public bool Update(T entity);
+    public bool Delete(int id);
 }

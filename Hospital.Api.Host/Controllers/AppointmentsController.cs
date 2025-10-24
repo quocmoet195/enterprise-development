@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Hospital.Application.Contracts;
 using Hospital.Application.Contracts.Appointments;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Hospital.Api.Host.Controllers;
 
