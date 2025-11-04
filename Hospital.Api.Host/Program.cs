@@ -1,30 +1,31 @@
-using Hospital.Application;                        
+using Hospital.Application;
+using Hospital.Application.Contracts;
 using Hospital.Application.Contracts.Appointments;
 using Hospital.Application.Contracts.Doctors;
 using Hospital.Application.Contracts.Patients;
-using Hospital.Application.Contracts;
-using Hospital.Application.Services;               
-using Hospital.Domain.Interfaces;                 
-using Hospital.Infrastructure.InMemory.Seed;
-using Hospital.Infrastructure.InMemory;
-using Microsoft.OpenApi.Models;
+using Hospital.Application.Services;
+using Hospital.Domain.Interfaces;
+using Hospital.Infrastructure.EF;
+using Hospital.Infrastructure.EF.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+var cs = builder.Configuration.GetConnectionString("HospitalDb");
+builder.Services.AddDbContext<HospitalDbContext>(opt =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hospital API", Version = "v1" });
+    opt.UseMySql(cs, ServerVersion.AutoDetect(cs));
 });
 
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(HospitalProfile));
 
-builder.Services.AddSingleton<InMemoryData>();
 
-builder.Services.AddScoped<IDoctorRepository, DoctorInMemoryRepository>();
-builder.Services.AddScoped<IPatientRepository, PatientInMemoryRepository>();
-builder.Services.AddScoped<IAppointmentRepository, AppointmentInMemoryRepository>();
+builder.Services.AddScoped<IDoctorRepository, DoctorEfRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientEfRepository>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentEfRepository>();
 
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
