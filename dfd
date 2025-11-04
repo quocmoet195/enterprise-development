@@ -1,0 +1,197 @@
+[33mcommit 62d76e352a72b5476224d48580d8cd932f416cfa[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mlab3[m[33m, [m[1;31morigin/lab2[m[33m, [m[1;32mlab2[m[33m)[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Fri Oct 24 18:56:10 2025 +0400
+
+    Add error logging for all controller methods
+
+[33mcommit c3eb7de84f40be152cc9c53b32c31cd8139ae2e5[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Fri Oct 24 17:11:40 2025 +0400
+
+    fix: error Inmemory and error logging
+
+[33mcommit cdfe3b3b8f54645a997e8027483df1143c7cce26[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Thu Oct 23 00:29:14 2025 +0400
+
+    fix: add access modifiers
+
+[33mcommit 32bf4aa9f7c238b90c4f0834414ef3c60c660c9f[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Thu Oct 23 00:06:52 2025 +0400
+
+    fix: add ProducesResponseType
+
+[33mcommit ca01970f2bcaf17b0a805638973c917bee500908[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Wed Oct 22 23:48:36 2025 +0400
+
+    fix: error Inmemory and mapping DTO
+
+[33mcommit 5ab64d483c1f4c615ce9cab6736416d7d0ba3230[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Wed Oct 22 22:38:12 2025 +0400
+
+    fix: change namespace and primary constructor
+
+[33mcommit 6fede15d8e49e67a84a91ca796b5049dcced5276[m
+Merge: 41cc403 ba4d4b7
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Wed Oct 22 22:18:34 2025 +0400
+
+    fix: move the Hospital.sln file
+
+[33mcommit 41cc403aeaeb242f3093a8766a0c0ea04e24ee7f[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Wed Oct 22 22:16:57 2025 +0400
+
+    fix: move the Hospital.sln file
+
+[33mcommit ba4d4b72696cb5f733ae65bb8e7b9cd1a088ca72[m
+Author: Tran Van Quoc <107496830+quocmoet195@users.noreply.github.com>
+Date:   Tue Oct 21 14:17:59 2025 +0400
+
+    Update README.md
+
+[33mcommit d6d01b37f351759452c4d4ac7a86cbcaa215ddcc[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Tue Oct 21 13:51:01 2025 +0400
+
+    fix: error references
+
+[33mcommit 1f5722d053f5eb8842cd5018ffa330d75cac7c68[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Tue Oct 21 13:20:47 2025 +0400
+
+    create HospitalProfile for mapping entity and DTO
+
+[33mcommit 1170f8d47f5ba595cb61c77907a931a03e8a0a4f[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Tue Oct 21 13:16:51 2025 +0400
+
+    create DoctorService, PatientService, AppointmentService, and AnalyticsService
+
+[33mcommit a8a82aa9dda75b6ee12877f385cc50117baf3b77[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Tue Oct 21 13:13:37 2025 +0400
+
+    create service interfaces
+
+[33mcommit cb4f0fddbbe395742ca1bb45e508dae328a1722a[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Tue Oct 21 13:11:19 2025 +0400
+
+    create DTOs for entities
+
+[33mcommit ba71fe5cad88816a9a933b0eda17d97b1d997790[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Tue Oct 21 12:59:54 2025 +0400
+
+    Create In-memory repositories Doctor, Patient, Appointment
+
+[33mcommit 6804ea7df1252e577a014e43fb4a354a5c6c7944[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Tue Oct 21 12:14:37 2025 +0400
+
+    Create Hospital.Api.Host project
+
+[33mcommit 8aa2cf04f73eaf339819fd96b25cd06a8bec920f[m[33m ([m[1;31morigin/lab1[m[33m, [m[1;32mlab1[m[33m)[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Thu Sep 25 21:31:02 2025 +0400
+
+    Fix class QueriesTests
+
+[33mcommit 0b02e179e05f769770aae2cdfdba046c668923ab[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Thu Sep 25 15:53:35 2025 +0400
+
+    Update file README.md
+
+[33mcommit 37ffafb350aea147de38af63fe3cf7bd9e580c6a[m
+Merge: 382cc7c f3d4ced
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Thu Sep 25 15:52:14 2025 +0400
+
+    Updated README.md
+
+[33mcommit 382cc7c01b0198be5b8a3e1188988b2e7444771d[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Thu Sep 25 15:50:27 2025 +0400
+
+    Update README.md
+
+[33mcommit f3d4cedb69ee60b8aa3c8b4546d3bf20c22511cb[m
+Author: Tran Van Quoc <107496830+quocmoet195@users.noreply.github.com>
+Date:   Thu Sep 25 15:47:20 2025 +0400
+
+    Update README.md
+
+[33mcommit 572b802c2603df4280282c3f7f79b934542b1567[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Thu Sep 25 15:36:12 2025 +0400
+
+    Fix tests and add summary of property
+
+[33mcommit 37b43e2451927a45d39dc9a1960f91846bc7b369[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Thu Sep 25 00:09:03 2025 +0400
+
+    Create folder Emuns and cleanup code
+
+[33mcommit 3f8db9e9e419a7e56d713c49a82fb3f3ab336e39[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Tue Sep 23 21:32:00 2025 +0400
+
+    Update property classes
+
+[33mcommit c8b89fe0310103df9ee9db75cd68e6b8ab42513c[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Tue Sep 23 21:12:45 2025 +0400
+
+    Add queries and tests
+
+[33mcommit 3a8d038ee6f734637a1f016f9cd15c41144e6e5e[m
+Author: quocmoet195 <quocvan140519@gmail.com>
+Date:   Mon Sep 22 16:20:29 2025 +0400
+
+    Add structure of classes
+
+[33mcommit f6dfc8b126f5441e155db14afc10eee19f6216ce[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: Nikolay Chupshev <73119715+kolyanch@users.noreply.github.com>
+Date:   Mon Sep 1 14:58:00 2025 +0400
+
+    Update README.md
+
+[33mcommit 83c716a31eeffa0d2520cec153696c990b523a59[m
+Author: Nikolay Chupshev <73119715+kolyanch@users.noreply.github.com>
+Date:   Tue Aug 26 11:12:45 2025 +0400
+
+    Update README.md
+
+[33mcommit b3587b0f285b7610a7d808f873664ef816daf1b7[m
+Author: alxmcs <70561974+alxmcs@users.noreply.github.com>
+Date:   Wed Aug 20 14:46:41 2025 +0400
+
+    Update README.md
+
+[33mcommit 0903410bd5898a32453ab821475f9268fd69d1d9[m
+Author: alxmcs <70561974+alxmcs@users.noreply.github.com>
+Date:   Wed Aug 20 09:41:02 2025 +0400
+
+    Update README.md
+
+[33mcommit 068997c4a4fc14d6a93c4926e982493347fc40a0[m
+Author: alxmcs <70561974+alxmcs@users.noreply.github.com>
+Date:   Tue Aug 19 16:36:58 2025 +0400
+
+    Учебные материалы (#2)
+    
+    * update
+    
+    * Create .editorconfig
+
+[33mcommit d6b8a6920031c82901f42fb2bb83d9782c0056d8[m
+Author: alxmcs <70561974+alxmcs@users.noreply.github.com>
+Date:   Tue Aug 19 13:34:10 2025 +0400
+
+    Initial commit
