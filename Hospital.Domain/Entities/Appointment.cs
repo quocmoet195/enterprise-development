@@ -25,12 +25,22 @@ public class Appointment
     public bool IsFollowUp { get; set; }
 
     /// <summary>
+    /// Gets or sets the foreign key of the patient associated with this appointment.
+    /// </summary>
+    public int PatientId { get; set; }
+
+    /// <summary>
     /// Navigation property to the patient.
     /// </summary>
-    public required Patient Patient { get; set; }
+    public Patient? Patient { get; set; }
+
+    /// <summary>
+    /// Gets or sets the foreign key of the doctor associated with this appointment.
+    /// </summary>
+    public int DoctorId { get; set; }
 
     /// <summary>
     /// Navigation property to the doctor.
     /// </summary>
-    public required Doctor Doctor { get; set; }
+    public Doctor? Doctor { get; set; }
 }
