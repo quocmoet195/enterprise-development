@@ -3,25 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Domain", "Hospital.Domain\Hospital.Domain.csproj", "{8C5632B1-47D5-47B1-A8B3-460A9E25C45B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Domain", "Hospital.Domain\Hospital.Domain.csproj", "{8C5632B1-47D5-47B1-A8B3-460A9E25C45B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Application", "Hospital.Application\Hospital.Application.csproj", "{105EA8BC-27C0-4FF0-A62E-56D9654A288D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Application", "Hospital.Application\Hospital.Application.csproj", "{105EA8BC-27C0-4FF0-A62E-56D9654A288D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Application.Contracts", "Hospital.Application.Contracts\Hospital.Application.Contracts.csproj", "{58F8A118-0820-47AF-B349-32FAC1D586EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Application.Contracts", "Hospital.Application.Contracts\Hospital.Application.Contracts.csproj", "{58F8A118-0820-47AF-B349-32FAC1D586EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Infrastructure.InMemory", "Hospital.Infrastructure.InMemory\Hospital.Infrastructure.InMemory.csproj", "{A90ECCC5-B62E-46C0-BF66-392C7C801154}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Infrastructure.InMemory", "Hospital.Infrastructure.InMemory\Hospital.Infrastructure.InMemory.csproj", "{A90ECCC5-B62E-46C0-BF66-392C7C801154}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Api.Host", "Hospital.Api.Host\Hospital.Api.Host.csproj", "{CBD870EC-82F2-4C81-BD86-8EF3B65E5B3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Api.Host", "Hospital.Api.Host\Hospital.Api.Host.csproj", "{CBD870EC-82F2-4C81-BD86-8EF3B65E5B3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Tests", "Hospital.Tests\Hospital.Tests.csproj", "{3A25E187-C06F-4095-A0B2-F87F0DEC3C98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Tests", "Hospital.Tests\Hospital.Tests.csproj", "{3A25E187-C06F-4095-A0B2-F87F0DEC3C98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Infrastructure.EF", "Hospital.Infrastructure.EF\Hospital.Infrastructure.EF.csproj", "{06E45984-9493-4A20-9D5C-B1F11C94D081}"
 EndProject
 Global
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D9575288-20FC-495B-8C30-6A36FC775C76}
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -103,5 +99,23 @@ Global
 		{3A25E187-C06F-4095-A0B2-F87F0DEC3C98}.Release|x64.Build.0 = Release|Any CPU
 		{3A25E187-C06F-4095-A0B2-F87F0DEC3C98}.Release|x86.ActiveCfg = Release|Any CPU
 		{3A25E187-C06F-4095-A0B2-F87F0DEC3C98}.Release|x86.Build.0 = Release|Any CPU
+		{06E45984-9493-4A20-9D5C-B1F11C94D081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06E45984-9493-4A20-9D5C-B1F11C94D081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06E45984-9493-4A20-9D5C-B1F11C94D081}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{06E45984-9493-4A20-9D5C-B1F11C94D081}.Debug|x64.Build.0 = Debug|Any CPU
+		{06E45984-9493-4A20-9D5C-B1F11C94D081}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{06E45984-9493-4A20-9D5C-B1F11C94D081}.Debug|x86.Build.0 = Debug|Any CPU
+		{06E45984-9493-4A20-9D5C-B1F11C94D081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06E45984-9493-4A20-9D5C-B1F11C94D081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06E45984-9493-4A20-9D5C-B1F11C94D081}.Release|x64.ActiveCfg = Release|Any CPU
+		{06E45984-9493-4A20-9D5C-B1F11C94D081}.Release|x64.Build.0 = Release|Any CPU
+		{06E45984-9493-4A20-9D5C-B1F11C94D081}.Release|x86.ActiveCfg = Release|Any CPU
+		{06E45984-9493-4A20-9D5C-B1F11C94D081}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9575288-20FC-495B-8C30-6A36FC775C76}
 	EndGlobalSection
 EndGlobal
