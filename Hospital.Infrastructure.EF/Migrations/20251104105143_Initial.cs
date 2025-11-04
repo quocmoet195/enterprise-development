@@ -1,0 +1,181 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace Hospital.Infrastructure.EF.Migrations
+{
+    /// <inheritdoc />
+    public partial class Initial : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Doctors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Passport = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FullName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    BirthYear = table.Column<int>(type: "int", nullable: false),
+                    Specialization = table.Column<int>(type: "int", nullable: false),
+                    ExperienceYears = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doctors", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Patients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Passport = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FullName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    Address = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    BloodGroup = table.Column<int>(type: "int", nullable: false),
+                    Rhesus = table.Column<int>(type: "int", nullable: false),
+                    Phone = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patients", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    StartAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    RoomNumber = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsFollowUp = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    PatientId = table.Column<int>(type: "int", nullable: false),
+                    DoctorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "Doctors",
+                columns: new[] { "Id", "BirthYear", "ExperienceYears", "FullName", "Passport", "Specialization" },
+                values: new object[,]
+                {
+                    { 1, 1971, 6, "Doctor 1", "D000001", 0 },
+                    { 2, 1972, 7, "Doctor 2", "D000002", 0 },
+                    { 3, 1973, 8, "Doctor 3", "D000003", 0 },
+                    { 4, 1974, 9, "Doctor 4", "D000004", 0 },
+                    { 5, 1975, 10, "Doctor 5", "D000005", 0 },
+                    { 6, 1976, 11, "Doctor 6", "D000006", 0 },
+                    { 7, 1977, 12, "Doctor 7", "D000007", 0 },
+                    { 8, 1978, 13, "Doctor 8", "D000008", 0 },
+                    { 9, 1979, 14, "Doctor 9", "D000009", 0 },
+                    { 10, 1980, 15, "Doctor 10", "D000010", 0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Patients",
+                columns: new[] { "Id", "Address", "BirthDate", "BloodGroup", "FullName", "Gender", "Passport", "Phone", "Rhesus" },
+                values: new object[,]
+                {
+                    { 1, "Addr1", new DateOnly(1985, 1, 1), 1, "Podtyagina Anastasia", 1, "P000001", "111", 0 },
+                    { 2, "Addr2", new DateOnly(1990, 2, 2), 0, "Yemets Timofey", 0, "P000002", "222", 1 },
+                    { 3, "Addr3", new DateOnly(2000, 3, 3), 2, "Astsatryan Liliya", 0, "P000003", "333", 0 },
+                    { 4, "Addr4", new DateOnly(1988, 4, 4), 3, "Ryzhova Alena", 1, "P000004", "444", 0 },
+                    { 5, "Addr5", new DateOnly(1992, 5, 5), 1, "Ivanov Daniil", 0, "P000005", "555", 1 },
+                    { 6, "Addr6", new DateOnly(1981, 6, 6), 0, "Dick Roman", 0, "P000006", "666", 0 },
+                    { 7, "Addr7", new DateOnly(1979, 7, 7), 2, "Volkov Alexander", 0, "P000007", "777", 0 },
+                    { 8, "Addr8", new DateOnly(1995, 8, 8), 3, "Klyushin Ivan", 0, "P000008", "888", 1 },
+                    { 9, "Addr9", new DateOnly(1998, 9, 9), 1, "Semenova Alexandra", 1, "P000009", "999", 0 },
+                    { 10, "Addr10", new DateOnly(1987, 10, 10), 0, "Grishin Nikita", 0, "P000010", "000", 0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Appointments",
+                columns: new[] { "Id", "DoctorId", "IsFollowUp", "PatientId", "RoomNumber", "StartAt" },
+                values: new object[,]
+                {
+                    { 1, 1, false, 1, "101", new DateTime(2025, 9, 2, 9, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 1, false, 2, "101", new DateTime(2025, 9, 3, 10, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 1, false, 1, "101", new DateTime(2025, 9, 10, 11, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 2, true, 3, "102", new DateTime(2025, 8, 20, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, 3, true, 4, "103", new DateTime(2025, 9, 1, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, 4, true, 5, "104", new DateTime(2025, 7, 10, 14, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, 5, true, 6, "105", new DateTime(2025, 9, 16, 15, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, 6, false, 7, "101", new DateTime(2025, 9, 5, 9, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 9, 2, false, 1, "201", new DateTime(2025, 9, 6, 9, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 10, 3, false, 1, "201", new DateTime(2025, 9, 7, 9, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 11, 2, false, 2, "202", new DateTime(2025, 9, 8, 9, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 12, 4, false, 2, "202", new DateTime(2025, 9, 9, 9, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 13, 2, false, 3, "203", new DateTime(2025, 9, 10, 8, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 14, 4, false, 3, "203", new DateTime(2025, 9, 11, 8, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 15, 7, false, 8, "301", new DateTime(2025, 9, 1, 8, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 16, 7, false, 9, "301", new DateTime(2025, 9, 15, 10, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 17, 7, false, 10, "301", new DateTime(2025, 9, 28, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 18, 7, false, 8, "301", new DateTime(2025, 8, 31, 8, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 19, 8, false, 9, "301", new DateTime(2025, 10, 1, 8, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 20, 7, false, 10, "302", new DateTime(2025, 9, 20, 8, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_DoctorId",
+                table: "Appointments",
+                column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_PatientId",
+                table: "Appointments",
+                column: "PatientId");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Appointments");
+
+            migrationBuilder.DropTable(
+                name: "Doctors");
+
+            migrationBuilder.DropTable(
+                name: "Patients");
+        }
+    }
+}
