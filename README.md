@@ -13,7 +13,7 @@
   - LINQ-запросы (см. `Hospital.Tests/Queries.cs`)
   - Тесты xUnit (см. `Hospital.Tests/Tests.cs`)
     
-- ✅ **ЛЛР2 — Сервер (REST API)**
+- ✅ **ЛР2 — Сервер (REST API)**
   - Разработано серверное приложение **Hospital.Api.Host**
   - Реализованы CRUD-операции для сущностей:
     - `Doctor`, `Patient`, `Appointment`
@@ -28,22 +28,37 @@
   - Настроен **AutoMapper** для преобразования DTO ↔ Entities  
   - Реализована **DI (внедрение зависимостей)** в `Program.cs`
 
+- ✅ **ЛР3 — ORM + MySQL + миграции**
+  - Добавлен проект **Hospital.Infrastructure.EF**
+  - Настроен EF Core + провайдер **Pomelo.EntityFrameworkCore.MySql**
+  - Создан `HospitalDbContext` c `DbSet<Doctor/Patient/Appointment>`
+  - Конфиг отношений в OnModelCreating:
+    - `Appointment` → `Patient`
+    - `Appointment` → `Doctor`
+  - Первичное наполнение (HasData) для демо  
+  - Миграции + Update-Database создают схему и сидят данные 
+  - В `Program.cs` переключение DI с InMemory-репозиториев на EF-репозитории
+  - Подключение к MySQL через `appsettings.json` → "ConnectionStrings:HospitalDb"
 
 ## Структура решения
 ```
 Hospital.Domain
-├── Entities
+├── Entities/
 │   ├── Doctor.cs
 │   ├── Patient.cs
 │   └── Appointment.cs
-└── Enums
-    ├── Gender.cs
-    ├── BloodGroup.cs
-    ├── RhesusFactor.cs
-    └── DoctorSpecialization.cs
+├── Enums/
+│   ├── Gender.cs
+│   ├── BloodGroup.cs
+│   ├── RhesusFactor.cs
+│   └── DoctorSpecialization.cs
+└── Interfaces/
+    ├── IRepository.cs
+    ├── IDoctorRepository.cs
+    ├── IPatientRepository.cs
+    └── IAppointmentRepository.cs
 
 Hospital.Application.Contracts
-<<<<<<< HEAD
 ├── Doctors/
 │   ├── DoctorDto.cs
 │   └── DoctorCreateUpdateDto.cs
@@ -53,30 +68,18 @@ Hospital.Application.Contracts
 ├── Appointments/
 │   ├── AppointmentDto.cs
 │   └── AppointmentCreateUpdateDto.cs
-=======
-├── Appointments/
-│   ├── AppointmentCreateUpdateDtoAppointmentDto.cs
-│   ├── AppointmentDto.cs
-|   └── IAppointmentService
-├── Doctors/
-│   ├── DoctorCreateUpdateDto.cs
-│   ├── DoctorDto.cs
-│   └── IDoctorService.cs
-├── Patients/
-│   ├── IPatientService.cs
-│   ├── PatientCreateUpdateDto.cs
-│   └── PatientDto.cs
->>>>>>> ba4d4b72696cb5f733ae65bb8e7b9cd1a088ca72
 └── IAnalyticsService.cs
+   ├── IDoctorService.cs
+   ├── IPatientService.cs
+   └── IAppointmentService.cs
 
 Hospital.Application
 ├── Services/
-<<<<<<< HEAD
 │   ├── DoctorService.cs
 │   ├── PatientService.cs
 │   ├── AppointmentService.cs
 │   └── AnalyticsService.cs
-└── HospitalProfile.cs
+└── HospitalProfile.cs   
 
 Hospital.Infrastructure.InMemory
 └── Repositories/
@@ -84,35 +87,30 @@ Hospital.Infrastructure.InMemory
     ├── PatientInMemoryRepository.cs
     └── AppointmentInMemoryRepository.cs
 
+Hospital.Infrastructure.EF
+├── HospitalDbContext.cs
+├── Repositories/
+│   ├── DoctorEfRepository.cs
+│   ├── PatientEfRepository.cs
+│   └── AppointmentEfRepository.cs
+└── Migrations/
+    ├── 20251104105143_Initial.cs
+    ├── 20251104105143_Initial.Designer.cs
+    └── HospitalDbContextModelSnapshot.cs
+
 Hospital.Api.Host
 ├── Controllers/
 │   ├── DoctorController.cs
 │   ├── PatientController.cs
 │   ├── AppointmentController.cs
 │   └── AnalyticsController.cs
-=======
-│   ├── AnalyticsService.cs
-│   ├── AppointmentService.cs
-│   ├── DoctorService.cs
-│   └── PatientService.cs
-└── HospitalProfile.cs
-
-Hospital.Infrastructure.InMemory
-  ├── AppointmentInMemoryRepository.cs
-  ├── DoctorInMemoryRepository.cs
-  └── PatientInMemoryRepository.cs
-
-Hospital.Api.Host
-├── Controllers/
-│   ├── AnalyticsController.cs
-│   ├── AppointmentController.cs
-│   ├── DoctorController.cs
-│   └── PatientController.cs
->>>>>>> ba4d4b72696cb5f733ae65bb8e7b9cd1a088ca72
-└── Program.cs
+├── appsettings.json
+├── Program.cs
+└── Properties/launchSettings.json
 
 Hospital.Tests
 ├── Queries.cs
 ├── TestData.cs
 └── Tests.cs
+
 ```
