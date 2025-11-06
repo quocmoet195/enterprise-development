@@ -4,10 +4,8 @@ using Hospital.Domain.Enums;
 
 namespace Hospital.Infrastructure.EF;
 
-public class HospitalDbContext : DbContext
+public class HospitalDbContext(DbContextOptions<HospitalDbContext> options) : DbContext(options)
 {
-    public HospitalDbContext(DbContextOptions<HospitalDbContext> options) : base(options) { }
-
     public DbSet<Doctor> Doctors => Set<Doctor>();
     public DbSet<Patient> Patients => Set<Patient>();
     public DbSet<Appointment> Appointments => Set<Appointment>();
@@ -34,7 +32,7 @@ public class HospitalDbContext : DbContext
     private static void Seed(ModelBuilder b)
     {
         b.Entity<Doctor>().HasData(
-            Enumerable.Range(1, 10).Select(i => new Doctor
+            [.. Enumerable.Range(1, 10).Select(i => new Doctor
             {
                 Id = i,
                 Passport = $"D{i:000000}",
@@ -42,7 +40,7 @@ public class HospitalDbContext : DbContext
                 BirthYear = 1970 + (i % 20),
                 Specialization = DoctorSpecialization.Therapist,
                 ExperienceYears = i  + 5
-            }).ToArray()
+            })]
         );
 
         b.Entity<Patient>().HasData(

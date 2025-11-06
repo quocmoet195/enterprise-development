@@ -30,7 +30,7 @@ public static class Queries
         [.. apps.Where(a => a.Patient != null)
                 .GroupBy(a => a.Patient!)
                 .Where(g => GetAge(g.Key.BirthDate, today) > 30 &&
-                        g.Select(x => x.Doctor.Id).Distinct().Count() >= 2)
+                        g.Select(x => x.Doctor?.Id).Distinct().Count() >= 2)
                 .Select(g => g.Key)
                 .OrderBy(p => p.BirthDate)];
 
