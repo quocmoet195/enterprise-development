@@ -25,8 +25,8 @@ public class AnalyticsService(
             .Where(a => a.Doctor?.Id == doctorId)
             .Select(a => a.Patient?.FullName)
             .Where(n => !string.IsNullOrWhiteSpace(n))
-            .Distinct()!
-            .OrderBy(n => n)!;
+            .Distinct()
+            .Order()!;
 
     public int GetFollowUpsLastMonth(DateTime now)
     {

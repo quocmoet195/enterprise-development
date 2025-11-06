@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 var cs = builder.Configuration.GetConnectionString("HospitalDb");
 builder.Services.AddDbContext<HospitalDbContext>(opt =>
 {
@@ -21,6 +22,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(HospitalProfile));
+builder.Services.AddDbContext<HospitalDbContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("HospitalDb"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("HospitalDb"))
+    ));
+
 
 
 builder.Services.AddScoped<IDoctorRepository, DoctorEfRepository>();
