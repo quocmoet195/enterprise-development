@@ -17,7 +17,7 @@ public class PatientEfRepository(HospitalDbContext db) : IPatientRepository
     /// A collection of <see cref="Patient"/> entities.
     /// </returns>
     public IEnumerable<Patient> GetAll() =>
-        db.Patients.AsNoTracking().OrderBy(x => x.Id).ToList();
+        [.. db.Patients.AsNoTracking().OrderBy(x => x.Id)];
 
     /// <summary>
     /// Retrieves a specific patient by their unique identifier.

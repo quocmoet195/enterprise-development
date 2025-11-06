@@ -17,12 +17,11 @@ public class AppointmentEfRepository(HospitalDbContext db) : IAppointmentReposit
     /// A collection of <see cref="Appointment"/> objects ordered by their identifier.
     /// </returns>
     public IEnumerable<Appointment> GetAll() =>
-        db.Appointments
-            .Include(a => a.Patient)
-            .Include(a => a.Doctor)
-            .AsNoTracking()
-            .OrderBy(a => a.Id)
-            .ToList();
+        [.. db.Appointments
+          .Include(a => a.Patient)
+          .Include(a => a.Doctor)
+          .AsNoTracking()
+          .OrderBy(a => a.Id)];
 
     /// <summary>
     /// Retrieves a specific appointment by its unique identifier.
