@@ -18,11 +18,11 @@ public class AppointmentEfRepository(HospitalDbContext db) : IAppointmentReposit
     /// </returns>
     public IEnumerable<Appointment> GetAll() =>
         db.Appointments
-          .Include(a => a.Patient)
-          .Include(a => a.Doctor)
-          .AsNoTracking()
-          .OrderBy(a => a.Id)
-          .ToList();
+            .Include(a => a.Patient)
+            .Include(a => a.Doctor)
+            .AsNoTracking()
+            .OrderBy(a => a.Id)
+            .ToList();
 
     /// <summary>
     /// Retrieves a specific appointment by its unique identifier.

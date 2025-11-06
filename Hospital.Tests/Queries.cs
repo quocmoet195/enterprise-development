@@ -13,11 +13,11 @@ public static class Queries
 
     public static List<string> PatientNamesForDoctor(List<Appointment> apps, int doctorId) =>
         [.. apps.Where(a => a.Doctor != null && a.Doctor!.Id == doctorId)
-            .Select(a => a.Patient)
-            .Where(p => p is not null)
-            .Select(p => p!.FullName)
-            .Distinct()
-            .OrderBy(n => n)];
+                .Select(a => a.Patient)
+                .Where(p => p is not null)
+                .Select(p => p!.FullName)
+                .Distinct()
+                .OrderBy(n => n)];
 
 
     public static int FollowUpsLastMonth(List<Appointment> apps, DateTime now)
@@ -28,11 +28,11 @@ public static class Queries
 
     public static List<Patient> Patients30PlusMultiDoctors(List<Appointment> apps, DateOnly today) =>
         [.. apps.Where(a => a.Patient != null)
-            .GroupBy(a => a.Patient!)
-            .Where(g => GetAge(g.Key.BirthDate, today) > 30 &&
-                   g.Select(x => x.Doctor.Id).Distinct().Count() >= 2)
-            .Select(g => g.Key)
-            .OrderBy(p => p.BirthDate)];
+                .GroupBy(a => a.Patient!)
+                .Where(g => GetAge(g.Key.BirthDate, today) > 30 &&
+                        g.Select(x => x.Doctor.Id).Distinct().Count() >= 2)
+                .Select(g => g.Key)
+                .OrderBy(p => p.BirthDate)];
 
     public static List<Appointment> ThisMonthInRoom(List<Appointment> apps, string room, DateTime now)
     {
