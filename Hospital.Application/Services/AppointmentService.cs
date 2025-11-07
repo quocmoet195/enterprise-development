@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Hospital.Application.Contracts.Appointments;
-using Hospital.Application.Contracts;
 using Hospital.Domain.Entities;
 using Hospital.Domain.Interfaces;
 

@@ -22,12 +22,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(HospitalProfile));
-builder.Services.AddDbContext<HospitalDbContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("HospitalDb"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("HospitalDb"))
-    ));
-
 
 
 builder.Services.AddScoped<IDoctorRepository, DoctorEfRepository>();
@@ -40,6 +34,12 @@ builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<HospitalDbContext>();
+    db.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {
