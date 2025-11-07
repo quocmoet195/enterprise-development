@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
 
 var cs = builder.Configuration.GetConnectionString("HospitalDb");
 builder.Services.AddDbContext<HospitalDbContext>(opt =>
@@ -23,7 +24,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(HospitalProfile));
 
-
 builder.Services.AddScoped<IDoctorRepository, DoctorEfRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientEfRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentEfRepository>();
@@ -35,14 +35,11 @@ builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<HospitalDbContext>();
-    db.Database.Migrate();
-}
-
 if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<HospitalDbContext>();
+    db.Database.Migrate();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -50,4 +47,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.MapDefaultEndpoints();
 app.Run();
