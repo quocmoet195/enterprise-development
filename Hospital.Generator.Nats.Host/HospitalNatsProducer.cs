@@ -41,17 +41,17 @@ public class HospitalNatsProducer : BackgroundService
         {
             var batchSize = _options.BatchSize;
 
-            var doctors = Enumerable.Range(1, batchSize)
+            var doctors = new List<DoctorCreateUpdateDto>(Enumerable.Range(1, batchSize)
                 .Select(i => new DoctorCreateUpdateDto(
                     FullName: $"Doctor {i}",
                     BirthYear: 1970 + rnd.Next(0, 25),
                     ExperienceYears: rnd.Next(1, 30),
                     Specialization: "Therapist"))
-                .ToList();
+                );
 
             await PublishAsync(nats, _options.SubjectDoctors, doctors, stoppingToken);
 
-            var patients = Enumerable.Range(1, batchSize)
+            var patients = new List<PatientCreateUpdateDto>(Enumerable.Range(1, batchSize)
                 .Select(i => new PatientCreateUpdateDto(
                     Passport:$"000{i}",
                     FullName: $"Patient {i}",
@@ -61,21 +61,20 @@ public class HospitalNatsProducer : BackgroundService
                     BloodGroup: BloodGroup.A,
                     Rhesus: RhesusFactor.Positive,
                     Phone: $"111-11{i:00}"
-                ))
-                .ToList();
+                )));
 
             await PublishAsync(nats, _options.SubjectPatients, patients, stoppingToken);
 
             var now = DateTime.UtcNow;
 
-            var appointments = Enumerable.Range(1, batchSize)
+            var appointments = new List<AppointmentCreateUpdateDto>(Enumerable.Range(1, batchSize)
                 .Select(i => new AppointmentCreateUpdateDto(
                     StartAt: now.AddDays(i),
                     RoomNumber: $"10{i}",
                     IsFollowUp: i % 2 == 0,
                     DoctorId: i,  
                     PatientId: i))
-                .ToList();
+                );
 
             await PublishAsync(nats, _options.SubjectAppointments, appointments, stoppingToken);
 
