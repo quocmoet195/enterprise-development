@@ -4,7 +4,8 @@
 Учебная информационная система «Поликлиника» (вариант №77):  
 - **БД:** MySQL  
 - **Брокер:** NATS  
-- **Цель:** пошаговая реализация сервисно-ориентированного приложения (классы → сервер → ORM → генератор данных → клиент, оркестрация Aspire).
+- **Оркестрация:** .NET Aspire
+- **Цель:** пошаговая реализация сервисно-ориентированного приложения (классы → сервер → ORM → генератор данных → клиент, оркестрация).
 
 ## Состояние работ
 - ✅ **ЛР1 — Классы и unit-тесты**
@@ -39,6 +40,17 @@
   - Миграции + Update-Database создают схему и сидят данные 
   - В `Program.cs` переключение DI с InMemory-репозиториев на EF-репозитории
   - Подключение к MySQL через `appsettings.json` → "ConnectionStrings:HospitalDb"
+
+- ✅ **ЛР4 — Генератор данных + NATS + Aspire**
+  - **Генератор (Worker Service):** Создан проект **Hospital.Generator.Nats.Host**.
+    - Генерирует потоковые данные: Врачи, Пациенты, Приёмы.
+    - Сериализует данные в JSON и публикует в NATS (темы: `hospital.doctors`, `hospital.patients`, `hospital.appointments`).
+    - Реализована **Resilience/Retry** логика: до 10 попыток подключения к брокеру с нарастающей задержкой.
+  - **Консьюмер (Infrastructure):** Добавлен проект **Hospital.Infrastructure.Nats**.
+    - Подписывается на топики NATS.
+    - Десериализует сообщения и сохраняет их в БД через репозитории.
+    - Интегрирован в API как `HostedService`.
+
 
 ## Структура решения
 ```
@@ -86,6 +98,18 @@ Hospital.Infrastructure.InMemory
     ├── DoctorInMemoryRepository.cs
     ├── PatientInMemoryRepository.cs
     └── AppointmentInMemoryRepository.cs
+
+Hospital.Infrastructure.Nats
+├── Extensions/
+    └── HospitalNatsExtensions.cs
+├── HospitalNatsConsumer.cs
+└── HospitalNatsOptions.cs
+
+Hospital.Generator.Nats.Host
+├── appsettings.json
+├── HospitalNatsProducer.cs
+├── NatsOptions.cs
+└── Program.cs
 
 Hospital.Infrastructure.EF
 ├── HospitalDbContext.cs
