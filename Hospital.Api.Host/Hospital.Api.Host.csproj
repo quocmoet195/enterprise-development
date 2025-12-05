@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.NATS.Net" Version="13.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -18,6 +19,8 @@
     <ProjectReference Include="..\Hospital.Application\Hospital.Application.csproj" />
     <ProjectReference Include="..\Hospital.Infrastructure.EF\Hospital.Infrastructure.EF.csproj" />
 	<ProjectReference Include="..\Hospital.ServiceDefaults\Hospital.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Hospital.Infrastructure.Nats\Hospital.Infrastructure.Nats.csproj" />
+
   </ItemGroup>
 
 </Project>

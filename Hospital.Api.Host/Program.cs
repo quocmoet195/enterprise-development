@@ -1,17 +1,20 @@
 using Hospital.Application;
 using Hospital.Application.Contracts;
-using Hospital.Application.Contracts.Appointments;
+using Hospital.Application.Services;
 using Hospital.Application.Contracts.Doctors;
 using Hospital.Application.Contracts.Patients;
-using Hospital.Application.Services;
+using Hospital.Application.Contracts.Appointments;
 using Hospital.Domain.Interfaces;
 using Hospital.Infrastructure.EF;
 using Hospital.Infrastructure.EF.Repositories;
+using Aspire.NATS.Net;
+using Hospital.Infrastructure.Nats;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+builder.AddNatsClient("hospital-nats");
 
 var cs = builder.Configuration.GetConnectionString("HospitalDb");
 builder.Services.AddDbContext<HospitalDbContext>(opt =>
@@ -19,10 +22,12 @@ builder.Services.AddDbContext<HospitalDbContext>(opt =>
     opt.UseMySql(cs, ServerVersion.AutoDetect(cs));
 });
 
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(HospitalProfile));
+builder.Services.AddHospitalNatsConsumer();
 
 builder.Services.AddScoped<IDoctorRepository, DoctorEfRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientEfRepository>();
@@ -44,7 +49,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.MapDefaultEndpoints();
