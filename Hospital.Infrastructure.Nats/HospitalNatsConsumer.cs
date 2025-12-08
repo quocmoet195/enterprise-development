@@ -1,35 +1,73 @@
-﻿using Microsoft.Extensions.Hosting;
-using System.Text;
-using System.Text.Json;
-using NATS.Client.Core;
+﻿using System.Text.Json;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.DependencyInjection; 
+using NATS.Client.Core;
+using Hospital.Infrastructure.EF; 
+using Hospital.Domain.Entities;     
 
 namespace Hospital.Infrastructure.Nats;
 
-public class HospitalNatsConsumer(INatsConnection client) : BackgroundService
+public class HospitalNatsConsumer(
+    INatsConnection client,
+    ILogger<HospitalNatsConsumer> logger,
+    IOptions<HospitalNatsOptions> options,
+    IServiceScopeFactory scopeFactory) 
+    : BackgroundService
 {
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        Console.WriteLine("NATS Consumer is running...");
+        logger.LogInformation("NATS Consumer is running...");
+        var subject = options.Value.SubjectAppointments;
 
-        await foreach (var msg in client.SubscribeAsync<byte[]>(
-            "hospital.appointments", cancellationToken: stoppingToken))
+        try
         {
-            if (msg.Data == null)
-                continue;
+            await foreach (var msg in client.SubscribeAsync<byte[]>(subject, cancellationToken: stoppingToken))
+            {
+                if (msg.Data is null || msg.Data.Length == 0) continue;
 
-            var json = Encoding.UTF8.GetString(msg.Data);
-            var apps = JsonSerializer.Deserialize<List<AppointmentMessage>>(json);
+                try
+                {
+                    var appsDto = JsonSerializer.Deserialize<List<AppointmentMessage>>(msg.Data);
 
-            Console.WriteLine($"📩 Received contracts = {apps?.Count}");
+                    if (appsDto is not null && appsDto.Count > 0)
+                    {
+                        await SaveToDatabaseAsync(appsDto, stoppingToken);
+
+                        logger.LogInformation("Saved {Count} appointments to DB", appsDto.Count);
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    logger.LogError(ex, "JSON Error");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Error processing message");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical(ex, "NATS connection failed");
         }
     }
-}
 
-public class AppointmentMessage
-{
-    public int DoctorId { get; set; }
-    public int PatientId { get; set; }
-    public DateTime Time { get; set; }
+    private async Task SaveToDatabaseAsync(List<AppointmentMessage> messages, CancellationToken ct)
+    {
+        using var scope = scopeFactory.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<HospitalDbContext>();
+
+        var entities = messages.Select(m => new Appointment
+        {
+            DoctorId = m.DoctorId,
+            PatientId = m.PatientId,
+            StartAt = m.Time,
+            RoomNumber = "TBD" 
+        });
+
+        await dbContext.Appointments.AddRangeAsync(entities, ct);
+        await dbContext.SaveChangesAsync(ct);
+    }
 }

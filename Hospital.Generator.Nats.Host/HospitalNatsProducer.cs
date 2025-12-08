@@ -25,55 +25,62 @@ public class HospitalNatsProducer(ILogger<HospitalNatsProducer> logger, IOptions
 
         await using var nats = new NatsConnection(opts);
 
-
-        var rnd = new Random();
+        var rnd = Random.Shared;
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            var batchSize = _options.BatchSize;
+            try
+            {
+                var batchSize = _options.BatchSize;
 
-            var doctors = new List<DoctorCreateUpdateDto>(Enumerable.Range(1, batchSize)
-                .Select(i => new DoctorCreateUpdateDto(
-                    FullName: $"Doctor {i}",
-                    BirthYear: 1970 + rnd.Next(0, 25),
-                    ExperienceYears: rnd.Next(1, 30),
-                    Specialization: "Therapist"))
-                );
+                var doctors = new List<DoctorCreateUpdateDto>(Enumerable.Range(1, batchSize)
+                    .Select(i => new DoctorCreateUpdateDto(
+                        FullName: $"Doctor {i}",
+                        BirthYear: 1970 + rnd.Next(0, 25),
+                        ExperienceYears: rnd.Next(1, 30),
+                        Specialization: "Therapist"))
+                    );
 
-            await PublishAsync(nats, _options.SubjectDoctors, doctors, stoppingToken);
+                await PublishAsync(nats, _options.SubjectDoctors, doctors, stoppingToken);
 
-            var patients = new List<PatientCreateUpdateDto>(Enumerable.Range(1, batchSize)
-                .Select(i => new PatientCreateUpdateDto(
-                    Passport:$"000{i}",
-                    FullName: $"Patient {i}",
-                    Gender: Gender.Male,
-                    BirthDate: new DateOnly(1990, 1, 1).AddDays(rnd.Next(0, 3650)),
-                    Address: $"Street {i}",
-                    BloodGroup: BloodGroup.A,
-                    Rhesus: RhesusFactor.Positive,
-                    Phone: $"111-11{i:00}"
-                )));
+                var patients = new List<PatientCreateUpdateDto>(Enumerable.Range(1, batchSize)
+                    .Select(i => new PatientCreateUpdateDto(
+                        Passport: $"000{i}",
+                        FullName: $"Patient {i}",
+                        Gender: Gender.Male,
+                        BirthDate: new DateOnly(1990, 1, 1).AddDays(rnd.Next(0, 3650)),
+                        Address: $"Street {i}",
+                        BloodGroup: BloodGroup.A,
+                        Rhesus: RhesusFactor.Positive,
+                        Phone: $"111-11{i:00}"
+                    )));
 
-            await PublishAsync(nats, _options.SubjectPatients, patients, stoppingToken);
+                await PublishAsync(nats, _options.SubjectPatients, patients, stoppingToken);
 
-            var now = DateTime.UtcNow;
+                var now = DateTime.UtcNow;
 
-            var appointments = new List<AppointmentCreateUpdateDto>(Enumerable.Range(1, batchSize)
-                .Select(i => new AppointmentCreateUpdateDto(
-                    StartAt: now.AddDays(i),
-                    RoomNumber: $"10{i}",
-                    IsFollowUp: i % 2 == 0,
-                    DoctorId: i,  
-                    PatientId: i))
-                );
+                var appointments = new List<AppointmentCreateUpdateDto>(Enumerable.Range(1, batchSize)
+                    .Select(i => new AppointmentCreateUpdateDto(
+                        StartAt: now.AddDays(i),
+                        RoomNumber: $"10{i}",
+                        IsFollowUp: i % 2 == 0,
+                        DoctorId: i,
+                        PatientId: i))
+                    );
 
-            await PublishAsync(nats, _options.SubjectAppointments, appointments, stoppingToken);
+                await PublishAsync(nats, _options.SubjectAppointments, appointments, stoppingToken);
 
-            logger.LogInformation(
-                "Sent batch of {Count} doctors, {Count} patients, {Count} appointments",
-                doctors.Count, patients.Count, appointments.Count);
+                logger.LogInformation(
+                    "Sent batch of {Count} doctors, {Count} patients, {Count} appointments",
+                    doctors.Count, patients.Count, appointments.Count);
 
-            await Task.Delay(TimeSpan.FromSeconds(_options.DelaySeconds), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(_options.DelaySeconds), stoppingToken);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error while publishing data to NATS");
+                await Task.Delay(5000, stoppingToken);
+            }
         }
     }
 
@@ -83,9 +90,7 @@ public class HospitalNatsProducer(ILogger<HospitalNatsProducer> logger, IOptions
         T payload,
         CancellationToken ct)
     {
-        var json = JsonSerializer.Serialize(payload);
-        var bytes = System.Text.Encoding.UTF8.GetBytes(json);
-
-        await nats.PublishAsync(subject, bytes, cancellationToken: ct); 
+        var bytes = JsonSerializer.SerializeToUtf8Bytes(payload);
+        await nats.PublishAsync(subject, bytes, cancellationToken: ct);
     }
 }
