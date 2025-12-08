@@ -7,7 +7,6 @@ using Hospital.Application.Contracts.Appointments;
 using Hospital.Domain.Interfaces;
 using Hospital.Infrastructure.EF;
 using Hospital.Infrastructure.EF.Repositories;
-using Aspire.NATS.Net;
 using Hospital.Infrastructure.Nats;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,7 +48,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.MapDefaultEndpoints();
