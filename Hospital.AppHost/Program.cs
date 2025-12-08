@@ -7,8 +7,6 @@ var mysql = builder.AddMySql("mysql")
 
 var hospitalDb = mysql.AddDatabase("HospitalDb");
 
-var natsUser = builder.AddParameter("NatsLogin");
-var natsPass = builder.AddParameter("NatsPassword");
 var nats = builder.AddNats("hospital-nats").WithImage("nats", "2.11");
 
 var generator = builder.AddProject<Projects.Hospital_Generator_Nats_Host>("generator")

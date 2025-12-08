@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Hospital.Infrastructure.Nats;
+namespace Hospital.Infrastructure.Nats.Extensions;
 
 public static class HospitalNatsExtensions
 {

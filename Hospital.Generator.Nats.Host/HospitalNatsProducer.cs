@@ -10,22 +10,13 @@ using Hospital.Domain.Enums;
 
 namespace Hospital.Generator.Nats.Host;
 
-public class HospitalNatsProducer : BackgroundService
+public class HospitalNatsProducer(ILogger<HospitalNatsProducer> logger, IOptions<NatsOptions> options) : BackgroundService
 {
-    private readonly ILogger<HospitalNatsProducer> _logger;
-    private readonly NatsOptions _options;
-
-    public HospitalNatsProducer(
-        ILogger<HospitalNatsProducer> logger,
-        IOptions<NatsOptions> options)
-    {
-        _logger = logger;
-        _options = options.Value;
-    }
+    private readonly NatsOptions _options = options.Value;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("HospitalNatsProducer started");
+        logger.LogInformation("HospitalNatsProducer started");
 
         var opts = NatsOpts.Default with
         {
@@ -78,7 +69,7 @@ public class HospitalNatsProducer : BackgroundService
 
             await PublishAsync(nats, _options.SubjectAppointments, appointments, stoppingToken);
 
-            _logger.LogInformation(
+            logger.LogInformation(
                 "Sent batch of {Count} doctors, {Count} patients, {Count} appointments",
                 doctors.Count, patients.Count, appointments.Count);
 

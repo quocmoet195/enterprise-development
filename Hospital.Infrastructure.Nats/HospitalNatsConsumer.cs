@@ -2,23 +2,18 @@
 using System.Text;
 using System.Text.Json;
 using NATS.Client.Core;
+using Microsoft.Extensions.Logging;
 
 namespace Hospital.Infrastructure.Nats;
 
-public class HospitalNatsConsumer : BackgroundService
+public class HospitalNatsConsumer(INatsConnection client) : BackgroundService
 {
-    private readonly INatsConnection _client;
-
-    public HospitalNatsConsumer(INatsConnection client)
-    {
-        _client = client;
-    }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         Console.WriteLine("NATS Consumer is running...");
 
-        await foreach (var msg in _client.SubscribeAsync<byte[]>(
+        await foreach (var msg in client.SubscribeAsync<byte[]>(
             "hospital.appointments", cancellationToken: stoppingToken))
         {
             if (msg.Data == null)

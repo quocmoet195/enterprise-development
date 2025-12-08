@@ -7,7 +7,7 @@ using Hospital.Application.Contracts.Appointments;
 using Hospital.Domain.Interfaces;
 using Hospital.Infrastructure.EF;
 using Hospital.Infrastructure.EF.Repositories;
-using Hospital.Infrastructure.Nats;
+using Hospital.Infrastructure.Nats.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
