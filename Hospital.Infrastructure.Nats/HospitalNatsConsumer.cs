@@ -16,58 +16,114 @@ public class HospitalNatsConsumer(
     IServiceScopeFactory scopeFactory) 
     : BackgroundService
 {
+    private readonly HospitalNatsOptions _options = options.Value;
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("NATS Consumer is running...");
-        var subject = options.Value.SubjectAppointments;
+        var t1 = ProcessDoctorsAsync(stoppingToken);
+        var t2 = ProcessPatientsAsync(stoppingToken);
+        var t3 = ProcessAppointmentsAsync(stoppingToken);
 
+        await Task.WhenAll(t1, t2, t3);
+    }
+    private async Task ProcessDoctorsAsync(CancellationToken ct)
+    {
+        await ProcessMessageAsync<DoctorMessage>(
+            _options.SubjectDoctors,
+            ct,
+            async (dbContext, messages) =>
+            {
+                var entities = messages.Select(m => new Doctor
+                {
+                    FullName = m.FullName,
+                    Specialization = Domain.Enums.DoctorSpecialization.Therapist, 
+                    BirthYear = m.BirthYear,
+                    ExperienceYears = m.ExperienceYears,
+                    Passport = Guid.NewGuid().ToString().Substring(0, 8) 
+                });
+
+                await dbContext.Doctors.AddRangeAsync(entities, ct);
+            });
+    }
+
+    private async Task ProcessPatientsAsync(CancellationToken ct)
+    {
+        await ProcessMessageAsync<PatientMessage>(
+            _options.SubjectPatients,
+            ct,
+            async (dbContext, messages) =>
+            {
+                var entities = messages.Select(m => new Patient
+                {
+                    FullName = m.FullName,
+                    Passport = m.Passport,
+                    Gender = m.Gender,
+                    BirthDate = m.BirthDate,
+                    Address = m.Address,
+                    Phone = m.Phone,
+                    BloodGroup = m.BloodGroup,
+                    Rhesus = m.Rhesus
+                });
+
+                await dbContext.Patients.AddRangeAsync(entities, ct);
+            });
+    }
+
+    private async Task ProcessAppointmentsAsync(CancellationToken ct)
+    {
+        await ProcessMessageAsync<AppointmentMessage>(
+            _options.SubjectAppointments,
+            ct,
+            async (dbContext, messages) =>
+            {
+                var entities = messages.Select(m => new Appointment
+                {
+                    DoctorId = m.DoctorId,
+                    PatientId = m.PatientId,
+                    StartAt = m.Time,
+                    RoomNumber = "101",
+                    IsFollowUp = false
+                });
+
+                await dbContext.Appointments.AddRangeAsync(entities, ct);
+            });
+    }
+
+    private async Task ProcessMessageAsync<T>(
+        string subject,
+        CancellationToken ct,
+        Func<HospitalDbContext, List<T>, Task> saveAction)
+    {
         try
         {
-            await foreach (var msg in client.SubscribeAsync<byte[]>(subject, cancellationToken: stoppingToken))
+            await foreach (var msg in client.SubscribeAsync<byte[]>(subject, cancellationToken: ct))
             {
                 if (msg.Data is null || msg.Data.Length == 0) continue;
 
                 try
                 {
-                    var appsDto = JsonSerializer.Deserialize<List<AppointmentMessage>>(msg.Data);
-
-                    if (appsDto is not null && appsDto.Count > 0)
+                    var data = JsonSerializer.Deserialize<List<T>>(msg.Data);
+                    if (data is not null && data.Count > 0)
                     {
-                        await SaveToDatabaseAsync(appsDto, stoppingToken);
+                        using var scope = scopeFactory.CreateScope();
+                        var dbContext = scope.ServiceProvider.GetRequiredService<HospitalDbContext>();
 
-                        logger.LogInformation("Saved {Count} appointments to DB", appsDto.Count);
+                        await saveAction(dbContext, data);
+                        await dbContext.SaveChangesAsync(ct);
+
+                        logger.LogInformation("✅ Saved {Count} items from {Subject}", data.Count, subject);
                     }
-                }
-                catch (JsonException ex)
-                {
-                    logger.LogError(ex, "JSON Error");
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "Error processing message");
+                    logger.LogError(ex, "❌ Error processing message from {Subject}", subject);
                 }
             }
         }
         catch (Exception ex)
         {
-            logger.LogCritical(ex, "NATS connection failed");
+            logger.LogCritical(ex, "💀 Connection error on {Subject}", subject);
         }
-    }
-
-    private async Task SaveToDatabaseAsync(List<AppointmentMessage> messages, CancellationToken ct)
-    {
-        using var scope = scopeFactory.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<HospitalDbContext>();
-
-        var entities = messages.Select(m => new Appointment
-        {
-            DoctorId = m.DoctorId,
-            PatientId = m.PatientId,
-            StartAt = m.Time,
-            RoomNumber = "TBD" 
-        });
-
-        await dbContext.Appointments.AddRangeAsync(entities, ct);
-        await dbContext.SaveChangesAsync(ct);
     }
 }
