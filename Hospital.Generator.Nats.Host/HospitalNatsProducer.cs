@@ -10,20 +10,17 @@ using Hospital.Domain.Enums;
 
 namespace Hospital.Generator.Nats.Host;
 
-public class HospitalNatsProducer(ILogger<HospitalNatsProducer> logger, IOptions<NatsOptions> options) : BackgroundService
+public class HospitalNatsProducer(
+    ILogger<HospitalNatsProducer> logger, 
+    IOptions<NatsOptions> options,
+    INatsConnection nats) 
+    : BackgroundService
 {
     private readonly NatsOptions _options = options.Value;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("HospitalNatsProducer started");
-
-        var opts = NatsOpts.Default with
-        {
-            Url = _options.Url
-        };
-
-        await using var nats = new NatsConnection(opts);
 
         var rnd = Random.Shared;
 
@@ -85,7 +82,7 @@ public class HospitalNatsProducer(ILogger<HospitalNatsProducer> logger, IOptions
     }
 
     private static async Task PublishAsync<T>(
-        NatsConnection nats,
+        INatsConnection nats,
         string subject,
         T payload,
         CancellationToken ct)
