@@ -19,5 +19,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Hospital.Api.Host\Hospital.Api.Host.csproj" />
 		<ProjectReference Include="..\Hospital.Generator.Nats.Host\Hospital.Generator.Nats.Host.csproj" />
+		<ProjectReference Include="..\Hospital.Web\Hospital.Web.csproj" />
 	</ItemGroup>
 </Project>

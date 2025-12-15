@@ -1,0 +1,42 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Hospital.Web</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="analytics">
+                <span class="bi bi-person-heart" aria-hidden="true"></span> Аналитика
+            </NavLink>
+        </div>  
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="doctors">
+                <span class="bi bi-person-heart" aria-hidden="true"></span> Врач
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="patients">
+                <span class="bi bi-person-heart" aria-hidden="true"></span> Пациент
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="appointments">
+                <span class="bi bi-calendar-event" aria-hidden="true"></span> Встреча
+            </NavLink>
+        </div>
+    </nav>
+</div>
+

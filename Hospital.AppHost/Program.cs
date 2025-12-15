@@ -18,4 +18,8 @@ var api = builder.AddProject<Projects.Hospital_Api_Host>("api")
             .WaitFor(hospitalDb)
             .WaitFor(nats);
 
+var web = builder.AddProject<Projects.Hospital_Web>("web")
+            .WithReference(api)  
+            .WaitFor(api);
+
 builder.Build().Run();
