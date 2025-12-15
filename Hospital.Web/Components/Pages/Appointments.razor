@@ -1,0 +1,57 @@
+﻿@page "/appointments"
+@using Hospital.Application.Contracts.Appointments
+@inject HospitalApiClient Api
+@attribute [StreamRendering]
+
+<PageTitle>Встреча</PageTitle>
+
+<h1 class="mb-4">Встреча</h1>
+
+@if (isLoading)
+{
+            <div class="alert alert-info">Загрузка данных из API....</div>
+}
+else
+{
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Время</th>
+                    <th>Комната</th>
+                    <th>Идентификатор врача</th>
+                    <th>Идентификатор пациента</th>
+                </tr>
+            </thead>
+            <tbody>
+            @if (appointments != null)
+            {
+                @foreach (var item in appointments)
+                {
+                                <tr>
+                                    <td>@item.StartAt</td>
+                                    <td>@item.RoomNumber</td>
+                                    <td>@item.DoctorId</td>
+                                    <td>@item.PatientId</td>
+                                </tr>
+                }
+            }
+            </tbody>
+        </table>
+}
+
+@code {
+    private List<AppointmentDto>? appointments;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            appointments = await Api.GetAppointmentsAsync();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

@@ -1,0 +1,57 @@
+﻿@page "/doctors"
+@using Hospital.Application.Contracts.Doctors
+@inject HospitalApiClient Api
+@attribute [StreamRendering]
+
+<PageTitle>Список врачей</PageTitle>
+
+<h1 class="mb-4">Список врачей</h1>
+
+@if (isLoading)
+{
+                <div class="alert alert-info">Загрузка данных из API....</div>
+}
+else
+{
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Полное имя</th>
+                        <th>Специализация</th>
+                        <th>Опыт работы (лет)</th>
+                    </tr>
+                </thead>
+                <tbody>
+            @if (doctors != null)
+            {
+                @foreach (var doc in doctors)
+                {
+                                            <tr>
+                                                <td>@doc.Id</td>
+                                                <td>@doc.FullName</td>
+                                                <td>@doc.Specialization</td>
+                                                <td>@doc.ExperienceYears</td>
+                                            </tr>
+                }
+            }
+                </tbody>
+            </table>
+}
+
+@code {
+    private List<DoctorDto>? doctors;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            doctors = await Api.GetDoctorsAsync();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}
