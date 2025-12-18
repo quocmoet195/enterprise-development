@@ -51,6 +51,13 @@
     - Десериализует сообщения и сохраняет их в БД через репозитории.
     - Интегрирован в API как `HostedService`.
 
+- ✅ **ЛР5 — Клиент + Интеграция с Orchestrator (.NET Aspire)**
+  - Разработано клиентское приложение **Hospital.Web** (Blazor WebAssembly).
+  - Реализована интеграция с .NET Aspire:
+    - Добавлена ссылка на проект API в AppHost.
+    - Добавлена ссылка на проект API в Web Client.
+    -  Настроен Service Discovery.
+    - Реализованы страницы (Doctors, Patients, Appointments, Analytics) для отображения данных.
 
 ## Структура решения
 ```
@@ -137,4 +144,17 @@ Hospital.Tests
 ├── TestData.cs
 └── Tests.cs
 
+Hospital.Web
+├── Components/
+│   ├── Layout/
+│   │   └── NavMenu.razor
+│   └── Pages/
+│       ├── Analytics.razor
+│       ├── Appointments.razor
+│       ├── Doctors.razor
+│       ├── Home.razor
+│       └── Patients.razor
+├── HospitalApiClient.cs
+├── Program.cs
+└── appsettings.json
 ```
