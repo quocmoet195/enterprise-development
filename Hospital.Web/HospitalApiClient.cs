@@ -36,9 +36,13 @@ public class HospitalApiClient(HttpClient httpClient)
         return await httpClient.GetFromJsonAsync<int>("/api/analytics/followups/last-month");
     }
 
-    public async Task<List<PatientDto>> GetComplexPatientsAsync()
+    public async Task<List<PatientDto>> GetComplexPatientsAsync(DateTime? date = null)
     {
-        return await httpClient.GetFromJsonAsync<List<PatientDto>>("/api/analytics/patients/30plus-multi-doctors") ?? [];
+        var queryString = date.HasValue
+            ? $"?today={date.Value:yyyy-MM-dd}"
+            : "";
+
+        return await httpClient.GetFromJsonAsync<List<PatientDto>>($"/api/analytics/patients/30plus-multi-doctors{queryString}") ?? [];
     }
 
     public async Task<List<AppointmentDto>> GetRoomScheduleAsync(string room)
@@ -46,5 +50,63 @@ public class HospitalApiClient(HttpClient httpClient)
         return await httpClient.GetFromJsonAsync<List<AppointmentDto>>($"/api/analytics/appointments/this-month?room={room}") ?? [];
     }
 
+    public async Task<bool> CreateDoctorAsync(DoctorCreateUpdateDto dto)
+    {
+        var response = await httpClient.PostAsJsonAsync("/api/doctors", dto);
+        return response.IsSuccessStatusCode;
+    }
 
+    // 2. Cập nhật (PUT)
+    public async Task<bool> UpdateDoctorAsync(int id, DoctorCreateUpdateDto dto)
+    {
+        var response = await httpClient.PutAsJsonAsync($"/api/doctors/{id}", dto);
+        return response.IsSuccessStatusCode;
+    }
+
+    // 3. Xóa (DELETE)
+    public async Task<bool> DeleteDoctorAsync(int id)
+    {
+        var response = await httpClient.DeleteAsync($"/api/doctors/{id}");
+        return response.IsSuccessStatusCode;
+    }
+
+    public async Task<bool> CreateAppointmentAsync(AppointmentCreateUpdateDto dto)
+    {
+        var response = await httpClient.PostAsJsonAsync("/api/appointments", dto);
+        return response.IsSuccessStatusCode;
+    }
+
+    // 2. Cập nhật (PUT)
+    public async Task<bool> UpdateAppointmentAsync(int id, AppointmentCreateUpdateDto dto)
+    {
+        var response = await httpClient.PutAsJsonAsync($"/api/appointments/{id}", dto);
+        return response.IsSuccessStatusCode;
+    }
+
+    // 3. Xóa (DELETE)
+    public async Task<bool> DeleteAppointmentAsync(int id)
+    {
+        var response = await httpClient.DeleteAsync($"/api/appointments/{id}");
+        return response.IsSuccessStatusCode;
+    }
+
+    public async Task<bool> CreatePatientAsync(PatientCreateUpdateDto dto)
+    {
+        var response = await httpClient.PostAsJsonAsync("/api/patients", dto);
+        return response.IsSuccessStatusCode;
+    }
+
+    // 2. Cập nhật (PUT)
+    public async Task<bool> UpdatePatientAsync(int id, PatientCreateUpdateDto dto)
+    {
+        var response = await httpClient.PutAsJsonAsync($"/api/patients/{id}", dto);
+        return response.IsSuccessStatusCode;
+    }
+
+    // 3. Xóa (DELETE)
+    public async Task<bool> DeletePatientAsync(int id)
+    {
+        var response = await httpClient.DeleteAsync($"/api/patients/{id}");
+        return response.IsSuccessStatusCode;
+    }
 }
