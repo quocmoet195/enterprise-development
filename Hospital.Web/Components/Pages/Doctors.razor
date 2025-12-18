@@ -7,7 +7,13 @@
 
 <h1 class="mb-4">Список врачей</h1>
 
-@if (isLoading)
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+        <div class="alert alert-danger">
+            <strong>Ошибка:</strong> @errorMessage
+        </div>
+}
+else if (isLoading)
 {
                 <div class="alert alert-info">Загрузка данных из API....</div>
 }
@@ -42,12 +48,19 @@ else
 @code {
     private List<DoctorDto>? doctors;
     private bool isLoading = true;
+    private string? errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
+            isLoading = true;
+            errorMessage = null;
             doctors = await Api.GetDoctorsAsync();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Ошибка соединения с сервером: {ex.Message}";
         }
         finally
         {

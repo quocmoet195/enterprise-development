@@ -9,7 +9,16 @@
 
 <h1>Больничная аналитика</h1>
 
-@if (isLoading)
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">❌ Ошибка загрузки данных (Error)</h4>
+            <p>@errorMessage</p>
+            <hr>
+            <p class="mb-0">Пожалуйста, убедитесь, что сервер API запущен (Please check API server).</p>
+        </div>
+}
+else if (isLoading)
 {
                 <div class="alert alert-info">Загрузка статистики...</div>
 }
@@ -102,12 +111,14 @@ else
     private List<AppointmentDto> roomSchedule = [];
     private int followUpsCount = 0;
     private bool isLoading = true;
+    private string? errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             isLoading = true;
+            errorMessage = null;
 
             var t1 = Api.GetExperiencedDoctorsAsync();
             var t2 = Api.GetFollowUpsCountAsync();
@@ -123,6 +134,7 @@ else
         }
         catch (Exception ex)
         {
+            errorMessage = $"Не удалось получить данные: {ex.Message}";
             Console.WriteLine($"Error fetching analytics: {ex.Message}");
         }
         finally
