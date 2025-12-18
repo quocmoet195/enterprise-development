@@ -13,7 +13,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0" />
 		<PackageReference Include="NATS.Client.Core" Version="2.6.11" />
-		<PackageReference Include="Bogus" Version="*" />
+		<PackageReference Include="Bogus" Version="35.6.5" />
 	</ItemGroup>
 
 	<ItemGroup>

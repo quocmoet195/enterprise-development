@@ -18,6 +18,7 @@ public class AnalyticsService(
     public IEnumerable<DoctorDto> GetDoctorsWith10Plus() =>
         doctors.GetAll()
             .Where(d => d.ExperienceYears >= 10)
+            .OrderByDescending(d => d.ExperienceYears) 
             .Select(mapper.Map<DoctorDto>);
 
     public IEnumerable<string> GetPatientNamesForDoctor(int doctorId) =>

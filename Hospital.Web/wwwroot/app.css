@@ -54,3 +54,20 @@ h1:focus {
     max-height: 400px; 
     overflow-y: auto; 
 }
+
+.table-scroll-container {
+    max-height: 75vh; 
+    overflow-y: auto; 
+    border: 1px solid #dee2e6; 
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.table-scroll-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}

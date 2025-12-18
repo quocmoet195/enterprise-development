@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Bogus;
+using System.Text.Json;
 using Hospital.Application.Contracts.Doctors;
 using Hospital.Application.Contracts.Patients;
 using Hospital.Application.Contracts.Appointments;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NATS.Client.Core;
 using Hospital.Domain.Enums;
+using System.Linq;
 
 namespace Hospital.Generator.Nats.Host;
 
@@ -21,7 +23,7 @@ public class HospitalNatsProducer(
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("HospitalNatsProducer started");
-
+        var faker = new Faker("ru");
         var rnd = Random.Shared;
 
         while (!stoppingToken.IsCancellationRequested)
@@ -32,24 +34,25 @@ public class HospitalNatsProducer(
 
                 var doctors = new List<DoctorCreateUpdateDto>(Enumerable.Range(1, batchSize)
                     .Select(i => new DoctorCreateUpdateDto(
-                        FullName: $"Doctor {i}",
+                        FullName: faker.Name.FullName(),
                         BirthYear: 1970 + rnd.Next(0, 25),
-                        ExperienceYears: rnd.Next(1, 30),
-                        Specialization: "Therapist"))
+                        ExperienceYears: rnd.Next(1, 40),
+                        Specialization: faker.PickRandom<DoctorSpecialization>().ToString()))
+
                     );
 
                 await PublishAsync(nats, _options.SubjectDoctors, doctors, stoppingToken);
 
                 var patients = new List<PatientCreateUpdateDto>(Enumerable.Range(1, batchSize)
                     .Select(i => new PatientCreateUpdateDto(
-                        Passport: $"000{i}",
-                        FullName: $"Patient {i}",
-                        Gender: Gender.Male,
-                        BirthDate: new DateOnly(1990, 1, 1).AddDays(rnd.Next(0, 3650)),
-                        Address: $"Street {i}",
-                        BloodGroup: BloodGroup.A,
-                        Rhesus: RhesusFactor.Positive,
-                        Phone: $"111-11{i:00}"
+                        Passport: faker.Random.Replace("##??######"), 
+                        FullName: faker.Name.FullName(),
+                        Gender: faker.PickRandom<Gender>(),
+                        BirthDate: DateOnly.FromDateTime(faker.Date.Past(50, DateTime.UtcNow.AddYears(-18))), 
+                        Address: faker.Address.StreetAddress(), 
+                        BloodGroup: faker.PickRandom<BloodGroup>(),
+                        Rhesus: faker.PickRandom<RhesusFactor>(),
+                        Phone: faker.Phone.PhoneNumber() 
                     )));
 
                 await PublishAsync(nats, _options.SubjectPatients, patients, stoppingToken);
@@ -59,7 +62,7 @@ public class HospitalNatsProducer(
                 var appointments = new List<AppointmentCreateUpdateDto>(Enumerable.Range(1, batchSize)
                     .Select(i => new AppointmentCreateUpdateDto(
                         StartAt: now.AddDays(i),
-                        RoomNumber: $"10{i}",
+                        RoomNumber: faker.Random.Int(100, 500).ToString(),
                         IsFollowUp: i % 2 == 0,
                         DoctorId: i,
                         PatientId: i))
