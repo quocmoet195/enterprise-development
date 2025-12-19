@@ -51,6 +51,20 @@ public class HospitalProfile : Profile
             .ForCtorParam(nameof(AppointmentDto.PatientId),
                 opt => opt.MapFrom(src => src.Patient!.Id))
             .ForCtorParam(nameof(AppointmentDto.PatientName),
-                opt => opt.MapFrom(src => src.Patient!.FullName));
+                opt => opt.MapFrom(src => src.Patient!.FullName))
+            .ForCtorParam(nameof(AppointmentDto.StartAt),
+                opt => opt.MapFrom(src => src.StartAt))
+            .ForCtorParam(nameof(AppointmentDto.RoomNumber),
+                opt => opt.MapFrom(src => src.RoomNumber))
+            .ForCtorParam(nameof(AppointmentDto.IsFollowUp),
+                opt => opt.MapFrom(src => src.IsFollowUp))
+            .ForCtorParam(nameof(AppointmentDto.DoctorId),
+                opt => opt.MapFrom(src => src.DoctorId))
+            .ForCtorParam(nameof(AppointmentDto.DoctorName),
+                opt => opt.MapFrom(src => src.Doctor != null ? src.Doctor.FullName : "Unknown"))
+            .ForCtorParam(nameof(AppointmentDto.PatientId),
+                opt => opt.MapFrom(src => src.PatientId))
+            .ForCtorParam(nameof(AppointmentDto.PatientName),
+                opt => opt.MapFrom(src => src.Patient != null ? src.Patient.FullName : "Unknown"));
     }
 }
