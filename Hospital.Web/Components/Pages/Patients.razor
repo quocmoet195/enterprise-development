@@ -59,10 +59,10 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(p)">
+                                                <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(p)" title="Редактировать">
                                             <i class="bi bi-pencil"></i>
                                         </button>
-                                        <button class="btn btn-sm btn-outline-danger" @onclick="() => DeletePatient(p.Id)">
+                                                <button class="btn btn-sm btn-outline-danger" @onclick="() => DeletePatient(p.Id)" title="Удалить">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </td>
